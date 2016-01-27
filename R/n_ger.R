@@ -20,10 +20,10 @@ library (rworldmap)
 
 data(wrld_simpl) #create the World map with borders
 ##trasfering data from our observations in czech republic
-setwd ("C:/Users/jakubecp/Dropbox/SGEM_2015/Article_1")# skola
-setwd ("C:/Users/pavel/Downloads/Dropbox/SGEM_2015/Article_1/") #doma
-setwd ("/home/pavel/Dropbox/SGEM_2015/Article_1 ") #linux
-cz.nic.raw = read.csv ("nicr.czech.csv", header= TRUE, sep=";")
+# setwd ("C:/Users/jakubecp/Dropbox/SGEM_2015/Article_1")# skola
+# setwd ("C:/Users/pavel/Downloads/Dropbox/SGEM_2015/Article_1/") #doma
+# setwd ("/home/pavel/Dropbox/SGEM_2015/Article_1 ") #linux
+cz.nic.raw = read.csv ("data/nicr.czech.csv", header= TRUE, sep=";")
 head(cz.nic.raw)
 ## first solution for transformation of DMS into the decimal degrees 
 ## with function convert
