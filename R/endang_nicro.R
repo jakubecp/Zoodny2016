@@ -25,7 +25,9 @@ data(wrld_simpl) #create the World map with borders
 #setwd ("C:/Users/pavel/Downloads/Dropbox/SGEM_2015/Article_1/") #doma
 #setwd ("/home/pavel/Dropbox/SGEM_2015/Article_1 ") #linux
 cz.nic.raw = read.csv ("data/nicr.czech.csv", header= TRUE, sep=";")
-head(cz.nic.raw)
+sikes_sil <- read.csv ("data/Nicrophorinae_Sikes.csv", header=T, sep=";")
+ruzicka_sil <- read.csv ("data/Nicrophorinae_Ruzicka.csv", header=T, sep=";")
+head(sikes_sil)
 ## first solution for transformation of DMS into the decimal degrees 
 ## with function convert
 # convert<-function(coord){
