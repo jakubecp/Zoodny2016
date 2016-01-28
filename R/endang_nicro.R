@@ -16,12 +16,14 @@ library (celestial)
 library (ggplot2)
 library (maps)
 #install.packages("spocc", dependencies = TRUE)
-#install.packages("mapproj")
+library (mapproj)
 library(spocc)
 #install.packages("mapr", dependencies = TRUE)
 library (mapr)
+library(ggmap)
+#install.packages(c("mapproj", "maps"))
 #install.packages("devtools")
-library (devtools)
+#library (devtools)
 #data(wrld_simpl) #create the World map with borders
 ##trasfering data from our observations in czech republic
 #setwd ("C:/Users/jakubecp/Dropbox/SGEM_2015/Article_1")# skola
@@ -67,7 +69,7 @@ head (cz.nic.raw)
 
 ## merge three datasets cz.lat, cz.long, and spec
 ## + decimalLongitude and decimalLatitude
-coord = data.frame (endang_nicro, spec)
+#coord = data.frame (endang_nicro, spec)
 ## bind data from previous manipulation (dms to dd) with presence/absence data
 coord.cz = data.frame (long = cz.long, lat = cz.lat, 
                        spec = cz.nic.raw$spec)
@@ -83,7 +85,7 @@ endang_nicro_search<- occ_search(scientificName = c("Nicrophorus antennatus",
                                                     "Nicrophorus sepultor", 
                                                     "Nicrophorus vestigator"),
                            hasCoordinate= TRUE, limit = 3000)
-str (endang_nicro)
+str (endang_nicro_search)
 
 #coordinates of observations from GBIF (filter out NAs and obvious mistakes!)
 #Antennatus
@@ -93,7 +95,7 @@ coord.ant.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus antennatus
                        decimalLatitude)
 spec.ant.gbif <- rep ("antennatus", length (coord.ant.gbif$long))
 
-coord.ant <- data.frame (coord.ant.raw, spec= spec.ant.gbif)
+coord.ant <- data.frame (coord.ant.gbif, spec= spec.ant.gbif)
 
 #Garmanicus
 coord.ger.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus germanicus`$
@@ -164,17 +166,34 @@ ruzicka.coord<- ruzicka.coord.with_NAs [complete.cases(ruzicka.coord.with_NAs),]
 
 ## bind both dataframes (GBIF + CZ) together
 coord.full = rbind (endang_nicro, coord.cz, ruzicka.coord, sikes.coord)
+head(coord.full)
 
 
+#map of endangered Nicrophorinae occurence in Europe
+map=get_map (location="Europe", zoom=3)
+ggmap(map)
+str(map)
+# tiff (filename="outputs/Nicrophoriane_occurence.tiff", 
+#       width=2000, height=2000, 
+#       compression="lzw", res= 300)
+coord.ant <- coord.full[coord.full$spec == "antennatus",]
+
+nicroph.occur=  ggmap(map)+
+  geom_point (aes (x = coord.ant$long, 
+                   y = coord.ant$lat))+
+  xlab("")+
+  ylab("")
+# dev.off()
 # ## created two data frames with presence data and absence data.
 # coord = data.frame (long = coord.full$long [coord.full$antenn == "1"],
 #                     lat = coord.full$lat [coord.full$antenn == "1"])
 # coord.neg = data.frame (long = coord.full$long [coord.full$antenn == "0"],
 #                         lat = coord.full$lat [coord.full$antenn == "0"])
 
-X11()
-plot (coord, xlim=c(12,25), ylim=c(40,55))
-plot (wrld_simpl, add=T)
+# X11()
+# #plot (coord.full, xlim=c(12,25), ylim=c(40,55))
+# plot (coord.full)
+# plot (wrld_simpl, add=T)
 #choose the right (important) climatic variables (http://www.worldclim.org/bioclim) 
 #for your species and stack them! USE ENFA (package adehabitat) for selection of the right variables 
 #if you do not know a lot about them
