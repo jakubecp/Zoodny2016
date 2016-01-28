@@ -4,7 +4,7 @@ rm(list = ls())
 #                  "celestial", "ggplot2", "rJava"))
  library (rgbif) #nefunguje 
 # library (raster)
-# library (maptools)
+ library (maptools) # for wrld_simpl
 # library (XML) #nefunguje pod ubuntu
 # library (rgdal) #nefunguje pod ubuntu
 # library (dismo)
@@ -24,7 +24,7 @@ library(ggmap)
 #install.packages(c("mapproj", "maps"))
 #install.packages("devtools")
 #library (devtools)
-#data(wrld_simpl) #create the World map with borders
+data(wrld_simpl) #create the World map with borders
 ##trasfering data from our observations in czech republic
 #setwd ("C:/Users/jakubecp/Dropbox/SGEM_2015/Article_1")# skola
 #setwd ("C:/Users/pavel/Downloads/Dropbox/SGEM_2015/Article_1/") #doma
@@ -176,13 +176,18 @@ str(map)
 # tiff (filename="outputs/Nicrophoriane_occurence.tiff", 
 #       width=2000, height=2000, 
 #       compression="lzw", res= 300)
-coord.ant <- coord.full[coord.full$spec == "antennatus",]
+#coord.ant <- coord.full[coord.full$spec == "antennatus",] #exampe of 
+#selection for plotting
 
 nicroph.occur=  ggmap(map)+
-  geom_point (aes (x = coord.ant$long, 
-                   y = coord.ant$lat))+
+  geom_point (aes (x = coord.full$long, 
+                   y = coord.full$lat), data = coord.full)+
   xlab("")+
   ylab("")
+
+plot (coord.full$long,coord.full$lat)
+plot (wrld_simpl, add=T)
+
 # dev.off()
 # ## created two data frames with presence data and absence data.
 # coord = data.frame (long = coord.full$long [coord.full$antenn == "1"],
