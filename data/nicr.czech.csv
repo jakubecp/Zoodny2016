@@ -1,85 +1,97 @@
-lokalita;antennatus;germanicus;sepultor;lat;long
-1 – Církvice (6058c). . . Zea mays. ;0;0;1;49D56M48.183S;15D20M47.287S
-2 – Kalabousek (6058c). . . Hordeum vulgare. ;0;0;1;49D55M39S;15D23M6.542S
-3 – Žleby (6058d).   Triticum aestivum. ;0;0;0;49D54M2.786S;15D29M30.715S
-4 – Vrdy I. (6058d).   Zea mays. ;0;0;0;49D55M12.946S;15D28M51.636S
-5 – Horní Buèice (6058d).   Hordeum vulgare. ;0;0;1;49D56M8.593S;15D26M58.012S
-6 – Bojmany (6058d).   Brassica napus. ;0;0;0;49D57M16.818S;15D26M7.632S
-7 – Kolín (5957c).   Brassica napus. ;0;0;0;50D1M46.826S;15D13M26.68S
-8 – Starý Kolín I. (5957d).   Triticum aestivum. ;0;0;0;50D0M5.501S;15D17M46.691S
-9 – Èervený domek (6057b).   Brassica oleracea convar. capitata var. alba. ;0;0;1;49D59M12.954S;15D19M26.96S
-10 – Nové Dvory I. (6058a).   Beta vulgaris var. rapacea. ;0;0;0;49D57M59.871S;15D20M31.841S
-11 – Malín I. (6057a).   Triticum aestivum. ;0;0;0;49D58M28.99S;15D18M5.774S
-12 – Skalka (6057a).   Beta vulgaris var. rapacea. ;0;0;1;49D59M47.749S;15D14M51.083S
-13 – Hluboký dùl (5957c).   Triticum aestivum. ;0;0;1;50D0M32.79S;15D15M52.48S
-14 – Starý Kolín II. (5957b).   Zea mays. ;0;0;1;50D0M32.79S;15D15M52.48S
-15 – Libenice (6057b).   Beta vulgaris var. rapacea. ;0;0;1;49D59M26.27S;15D15M55.35S
-16 – Hlízov (6057b).   Triticum aestivum. ;0;0;0;49D59M32.44S;15D18M15.89S
-17 – Nové Dvory II. (6057b).   Zea mays. ;0;0;1;49D57M31.46S;15D19M29.81S
-18 – Chotusice – letištì (6058a).   Triticum aestivum. ;0;0;1;49D57M26.98S;15D21M26.72S
-19 – Chotusice (6058a).   Hordeum vulgare. ;0;0;1;49D57M6.79S;15D24M19.85S
-20 – Druhanice (6058d).   Glycine max. ;0;0;1;49D56M36.97S;15D25M12.53S
-21 – Výèapy (6058d).   Triticum aestivum. ;0;0;1;49D56M35.10S;15D27M28.13S
-22 – Vrdy II. (6058d).   Hordeum vulgare. ;0;0;1;49D54M48.86S;15D27M53.30S
-23 – Vinice (6058d).   Triticum aestivum. ;0;0;0;49D54M45.96S;15D29M31.00S
-24 – Malín II. (6057b).   Triticum aestivum.;0;0;1;49D58M15.74S;15D18M38.02S
-25 – Pozdeò I. (5749d).   Triticum aestivum. ;0;0;1;50D14M44.340S;013D56M10.104S
-26 – Pozdeò II. (5749b).   Hordeum vulgare. ;0;0;1;50D15M08.640S;013D57M12.204S
-27 – Hoøešovice I. (5749b).   Triticum aestivum. ;0;1;1;50D15M41.400S;013D56M53.196S
-28 – Hoøešovice II. (5749b).   Triticum aestivum. ;1;1;1;50D15M43.056S;013D57M20.988S
-29 – Hoøešovice III. (5749b).   Beta vulgaris var. rapacea. ;1;1;1;50D16M05.484S;013D56M56.580S
-30 – Klobuky (5749b).   Medicago sativa.;1;1;1;50D17M28.752S;013D58M08.724S
-31 – Skupice I. (5648c).   Zea mays. ;0;0;1;50D19M51.8S;13D41M41.61S
-32 – Skupice II. (5648c).   Hordeum vulgare. ;0;0;1;50D20M50.86S;13D42M10.96S
-33 – Malnice (5648c).   Phacelia tanacetifolia. ;0;0;0;50D20M15.86S;13D43M19.41S
-34 – Postoloprty (5648a).   Triticum aestivum. ;1;0;1;50D22M26.05S;13D42M59.19S
-35 – Bøezno (5648a).   Hordeum vulgare. ;1;0;1;50D21M27.47S;13D44M41.13S
-36 – Louny I. (5648b).   Triticum aestivum. ;0;1;1;50D21M3.42S;13D46M33.91S
-37 – Louny II. (5648b).   Hordeum vulgare. ;0;0;0;50D22M2.22S;13D49M5.63S
-38 – Veltìže (5649c).   Hordeum vulgare. ;1;1;1;50D20M54.16S;13D52M45.63S
-39 – Poèedìlice (5649a).   Hordeum vulgare. ;0;1;1;50D22M29.56S;13D53M25.33S
-40 – Slavìtín (5649a).   Hordeum vulgare. ;0;1;1;50D21M46S;13D54M50.15S
-41 – Stradonice (5649b).   Hordeum vulgare. ;0;1;1;50D23M3.25S;13D58M10.69S
-42 – Køesín (5650a).   Triticum aestivum.;1;1;1;50D23M49.51S;14D0M19.94S
-43 – Rebešovice (6865d).   Triticum aestivum. ;1;1;1;49D6M3.309S;16D39M5.433S
-44 – Modøice (6865d).   Heliantus annus. ;0;1;1;49D7M5.7S;16D37M30.601S
-45 – Holasice (6965b).   Triticum aestivum. ;0;0;0;49D4M48.925S;16D37M13.974S
-46 – Vojkovice (6965b).   Triticum aestivum. ;0;1;0;49D3M48.377S;16D35M2.289S
-47 – Medlov (6965c).   Carthamus tinctorius. ;0;1;1;49D2M16.205S;16D32M11.277S
-48 – Kupaøovice (6965c).   Hordeum vulgare. ;0;1;0;49D2M15.633S;16D30M7.352S
-49 – Odrovice (6965c).   Brassica napus. ;0;1;1;49D1M1.315S;16D31M12.008S
-50 – Cvrèovice (6965c).   Zea mays. ;1;1;1;49D0M9.305S;16D30M20.279S
-51 – Pohoøelice (7064a).   Zea mays. ;0;1;1;48D59M38.058S;16D32M0.136S
-52 – Pøibice (7065a).   Hordeum vulgare. ;0;1;1;48D59M10.534S;16D34M35.124S
-53 – Vranovice (7065b).   Zea mays. ;0;1;1;48D59M1.514S;16D36M50.803S
-54 –Pøísnotice (7065b).   Zea mays. ;0;0;0;48D59M39.925S;16D37M45.159S
-55 – Nosislav (6965d).   Hordeum vulgare. ;0;0;0;49D1M4.694S;16D37M35.941S
-56 – Velké Nìmèice I. (7065b).   Triticum aestivum. ;0;1;1;48D59M12.34S;16D38M58.002S
-57 – Velké Nìmèice II. (7066a).   Zea mays. ;0;0;0;48D58M41.388S;16D40M28.065S
-58 – Uherèice (7065b).   Zea mays. ;0;1;0;48D57M38.568S;16D38M48.09S
-59 – Ladná I. (7167c).   Heliantus annus. ;0;1;1;48D48M35.362S;16D51M56.754S
-60 – Ladná II. (7267a).   Zea mays.;0;0;1;48D47M55.264S;16D53M40.959S
-61 – Sudkov (6067d).   Beta vulgaris var. rapacea. ;0;0;0;49D55M10.79S;16D57M04.68S
-62 – Kolšov (6067d).   Hordeum vulgare. ;0;0;0;49D54M01.33S;16D56M43.62S
-63 – Lesnice (6167b).   Beta vulgaris var. rapacea. ;0;0;0;49D53M14.36S;16D56M21.08S
-64 – Zábøeh – sever (6167a).   Hordeum vulgare. ;0;0;0;49D53M33.19S;16D52M45.99S
-65 – Zábøeh – západ (6167a).   louka (pastvina). ;0;0;0;49D53M14.53S;16D51M09.84S
-66 – Rájec (6167a).   Hordeum vulgare. ;0;0;0;49D51M31.83S;16D53M44.99S
-67 – Zvole (6167c).   Triticum aestivum. ;0;0;0;49D49M49.81S;16D54M25.36S
-68 – Vlachov (6167c).   Triticum aestivum. ;0;0;0;49D48M52.20S;16D54M23.69S
-69 – Libivá (6267a).   Triticum aestivum. ;0;0;0;49D47M29.77S;16D54M57.98S
-70 – Mohelnice (6267b).   Triticum aestivum. ;0;0;0;49D46M12.85S;16D56M02.84S
-71 – Tøeština (6267b).   Zea mays. ;0;1;0;49D47M57.99S;16D58M31.31S
-72 – Dubicko (6167d).   Hordeum vulgare. ;0;0;0;49D49M31.25S;16D58M12.18S
-73 – Sudkov – jih (6067d).   Zea mays. ;0;0;0;49D54M39.64S;16D55M55.31S
-74 – Nový Dvùr (6167b).   Medicago sativa. ;0;0;0;49D53M44.24S;16D55M10.09S
-75 – Leština (6167b).   Medicago sativa. ;0;0;0;49D52M31.60S;16D55M43.29S
-76 – Leština – západ (6167a).   Triticum aestivum. ;0;0;0;49D52M18.42S;16D54M42.74S
-77 – Zábøeh – východ (6167a).   louka (pastvina). ;0;0;0;49D52M51.07S;16D53M39.48S
-78 – Zábøeh (6167a).   louka (pastvina). ;0;0;0;49D52M23.44S;16D52M41.98S
-79 – Zvole – sever (6167d).   Medicago sativa. ;0;0;0;49D50M48.53S;16D55M06.03S
-80 – Lukavice (6167d).   Medicago sativa. ;0;0;1;49D49M34.29S;16D55M46.54S
-81 – Libivá – východ (6167d).   Beta vulgaris var. rapacea. ;0;0;0;49D48M15.24S;16D55M24.99S
-82 – Mohelnice – sever (6267b).   louka (pastvina). ;0;0;0;49D46M59.92S;16D55M09.30S
-83 – Mohelnice – východ (6267b).   Triticum aestivum. ;0;0;0;49D46M50.83S;16D57M10.56S
-84 – Tøeština – severozápad (6167d).   Zea mays.;0;0;0;49D48M00.28S;16D57M21.16S
+lokalita;lat;long;spec
+34 – Postoloprty (5648a).   Triticum aestivum. ;50D22M26.05S;13D42M59.19S;antennatus
+35 – Bøezno (5648a).   Hordeum vulgare. ;50D21M27.47S;13D44M41.13S;antennatus
+28 – Hoøešovice II. (5749b).   Triticum aestivum. ;50D15M43.056S;013D57M20.988S;antennatus
+29 – Hoøešovice III. (5749b).   Beta vulgaris var. rapacea. ;50D16M05.484S;013D56M56.580S;antennatus
+30 – Klobuky (5749b).   Medicago sativa.;50D17M28.752S;013D58M08.724S;antennatus
+38 – Veltìže (5649c).   Hordeum vulgare. ;50D20M54.16S;13D52M45.63S;antennatus
+42 – Køesín (5650a).   Triticum aestivum.;50D23M49.51S;14D0M19.94S;antennatus
+43 – Rebešovice (6865d).   Triticum aestivum. ;49D6M3.309S;16D39M5.433S;antennatus
+50 – Cvrèovice (6965c).   Zea mays. ;49D0M9.305S;16D30M20.279S;antennatus
+46 – Vojkovice (6965b).   Triticum aestivum. ;49D3M48.377S;16D35M2.289S;german
+48 – Kupaøovice (6965c).   Hordeum vulgare. ;49D2M15.633S;16D30M7.352S;german
+58 – Uherèice (7065b).   Zea mays. ;48D57M38.568S;16D38M48.09S;german
+71 – Tøeština (6267b).   Zea mays. ;49D47M57.99S;16D58M31.31S;german
+27 – Hoøešovice I. (5749b).   Triticum aestivum. ;50D15M41.400S;013D56M53.196S;german
+36 – Louny I. (5648b).   Triticum aestivum. ;50D21M3.42S;13D46M33.91S;german
+39 – Poèedìlice (5649a).   Hordeum vulgare. ;50D22M29.56S;13D53M25.33S;german
+40 – Slavìtín (5649a).   Hordeum vulgare. ;50D21M46S;13D54M50.15S;german
+41 – Stradonice (5649b).   Hordeum vulgare. ;50D23M3.25S;13D58M10.69S;german
+44 – Modøice (6865d).   Heliantus annus. ;49D7M5.7S;16D37M30.601S;german
+47 – Medlov (6965c).   Carthamus tinctorius. ;49D2M16.205S;16D32M11.277S;german
+49 – Odrovice (6965c).   Brassica napus. ;49D1M1.315S;16D31M12.008S;german
+51 – Pohoøelice (7064a).   Zea mays. ;48D59M38.058S;16D32M0.136S;german
+52 – Pøibice (7065a).   Hordeum vulgare. ;48D59M10.534S;16D34M35.124S;german
+53 – Vranovice (7065b).   Zea mays. ;48D59M1.514S;16D36M50.803S;german
+56 – Velké Nìmèice I. (7065b).   Triticum aestivum. ;48D59M12.34S;16D38M58.002S;german
+59 – Ladná I. (7167c).   Heliantus annus. ;48D48M35.362S;16D51M56.754S;german
+28 – Hoøešovice II. (5749b).   Triticum aestivum. ;50D15M43.056S;013D57M20.988S;german
+29 – Hoøešovice III. (5749b).   Beta vulgaris var. rapacea. ;50D16M05.484S;013D56M56.580S;german
+30 – Klobuky (5749b).   Medicago sativa.;50D17M28.752S;013D58M08.724S;german
+38 – Veltìže (5649c).   Hordeum vulgare. ;50D20M54.16S;13D52M45.63S;german
+42 – Køesín (5650a).   Triticum aestivum.;50D23M49.51S;14D0M19.94S;german
+43 – Rebešovice (6865d).   Triticum aestivum. ;49D6M3.309S;16D39M5.433S;german
+50 – Cvrèovice (6965c).   Zea mays. ;49D0M9.305S;16D30M20.279S;german
+1 – Církvice (6058c). . . Zea mays. ;49D56M48.183S;15D20M47.287S;sepult
+2 – Kalabousek (6058c). . . Hordeum vulgare. ;49D55M39S;15D23M6.542S;sepult
+5 – Horní Buèice (6058d).   Hordeum vulgare. ;49D56M8.593S;15D26M58.012S;sepult
+9 – Èervený domek (6057b).   Brassica oleracea convar. capitata var. alba. ;49D59M12.954S;15D19M26.96S;sepult
+12 – Skalka (6057a).   Beta vulgaris var. rapacea. ;49D59M47.749S;15D14M51.083S;sepult
+13 – Hluboký dùl (5957c).   Triticum aestivum. ;50D0M32.79S;15D15M52.48S;sepult
+14 – Starý Kolín II. (5957b).   Zea mays. ;50D0M32.79S;15D15M52.48S;sepult
+15 – Libenice (6057b).   Beta vulgaris var. rapacea. ;49D59M26.27S;15D15M55.35S;sepult
+17 – Nové Dvory II. (6057b).   Zea mays. ;49D57M31.46S;15D19M29.81S;sepult
+18 – Chotusice – letištì (6058a).   Triticum aestivum. ;49D57M26.98S;15D21M26.72S;sepult
+19 – Chotusice (6058a).   Hordeum vulgare. ;49D57M6.79S;15D24M19.85S;sepult
+20 – Druhanice (6058d).   Glycine max. ;49D56M36.97S;15D25M12.53S;sepult
+21 – Výèapy (6058d).   Triticum aestivum. ;49D56M35.10S;15D27M28.13S;sepult
+22 – Vrdy II. (6058d).   Hordeum vulgare. ;49D54M48.86S;15D27M53.30S;sepult
+24 – Malín II. (6057b).   Triticum aestivum.;49D58M15.74S;15D18M38.02S;sepult
+25 – Pozdeò I. (5749d).   Triticum aestivum. ;50D14M44.340S;013D56M10.104S;sepult
+26 – Pozdeò II. (5749b).   Hordeum vulgare. ;50D15M08.640S;013D57M12.204S;sepult
+31 – Skupice I. (5648c).   Zea mays. ;50D19M51.8S;13D41M41.61S;sepult
+32 – Skupice II. (5648c).   Hordeum vulgare. ;50D20M50.86S;13D42M10.96S;sepult
+60 – Ladná II. (7267a).   Zea mays.;48D47M55.264S;16D53M40.959S;sepult
+80 – Lukavice (6167d).   Medicago sativa. ;49D49M34.29S;16D55M46.54S;sepult
+34 – Postoloprty (5648a).   Triticum aestivum. ;50D22M26.05S;13D42M59.19S;sepult
+35 – Bøezno (5648a).   Hordeum vulgare. ;50D21M27.47S;13D44M41.13S;sepult
+27 – Hoøešovice I. (5749b).   Triticum aestivum. ;50D15M41.400S;013D56M53.196S;sepult
+36 – Louny I. (5648b).   Triticum aestivum. ;50D21M3.42S;13D46M33.91S;sepult
+39 – Poèedìlice (5649a).   Hordeum vulgare. ;50D22M29.56S;13D53M25.33S;sepult
+40 – Slavìtín (5649a).   Hordeum vulgare. ;50D21M46S;13D54M50.15S;sepult
+41 – Stradonice (5649b).   Hordeum vulgare. ;50D23M3.25S;13D58M10.69S;sepult
+44 – Modøice (6865d).   Heliantus annus. ;49D7M5.7S;16D37M30.601S;sepult
+47 – Medlov (6965c).   Carthamus tinctorius. ;49D2M16.205S;16D32M11.277S;sepult
+49 – Odrovice (6965c).   Brassica napus. ;49D1M1.315S;16D31M12.008S;sepult
+51 – Pohoøelice (7064a).   Zea mays. ;48D59M38.058S;16D32M0.136S;sepult
+52 – Pøibice (7065a).   Hordeum vulgare. ;48D59M10.534S;16D34M35.124S;sepult
+53 – Vranovice (7065b).   Zea mays. ;48D59M1.514S;16D36M50.803S;sepult
+56 – Velké Nìmèice I. (7065b).   Triticum aestivum. ;48D59M12.34S;16D38M58.002S;sepult
+59 – Ladná I. (7167c).   Heliantus annus. ;48D48M35.362S;16D51M56.754S;sepult
+28 – Hoøešovice II. (5749b).   Triticum aestivum. ;50D15M43.056S;013D57M20.988S;sepult
+29 – Hoøešovice III. (5749b).   Beta vulgaris var. rapacea. ;50D16M05.484S;013D56M56.580S;sepult
+30 – Klobuky (5749b).   Medicago sativa.;50D17M28.752S;013D58M08.724S;sepult
+38 – Veltìže (5649c).   Hordeum vulgare. ;50D20M54.16S;13D52M45.63S;sepult
+42 – Køesín (5650a).   Triticum aestivum.;50D23M49.51S;14D0M19.94S;sepult
+43 – Rebešovice (6865d).   Triticum aestivum. ;49D6M3.309S;16D39M5.433S;sepult
+50 – Cvrèovice (6965c).   Zea mays. ;49D0M9.305S;16D30M20.279S;sepult
+27 – Hoøešovice I. (5749b).   Triticum aestivum. ;50D15M41.400S;013D56M53.196S;sepult
+36 – Louny I. (5648b).   Triticum aestivum. ;50D21M3.42S;13D46M33.91S;sepult
+39 – Poèedìlice (5649a).   Hordeum vulgare. ;50D22M29.56S;13D53M25.33S;sepult
+40 – Slavìtín (5649a).   Hordeum vulgare. ;50D21M46S;13D54M50.15S;sepult
+41 – Stradonice (5649b).   Hordeum vulgare. ;50D23M3.25S;13D58M10.69S;sepult
+44 – Modøice (6865d).   Heliantus annus. ;49D7M5.7S;16D37M30.601S;sepult
+47 – Medlov (6965c).   Carthamus tinctorius. ;49D2M16.205S;16D32M11.277S;sepult
+49 – Odrovice (6965c).   Brassica napus. ;49D1M1.315S;16D31M12.008S;sepult
+51 – Pohoøelice (7064a).   Zea mays. ;48D59M38.058S;16D32M0.136S;sepult
+52 – Pøibice (7065a).   Hordeum vulgare. ;48D59M10.534S;16D34M35.124S;sepult
+53 – Vranovice (7065b).   Zea mays. ;48D59M1.514S;16D36M50.803S;sepult
+56 – Velké Nìmèice I. (7065b).   Triticum aestivum. ;48D59M12.34S;16D38M58.002S;sepult
+59 – Ladná I. (7167c).   Heliantus annus. ;48D48M35.362S;16D51M56.754S;sepult
+28 – Hoøešovice II. (5749b).   Triticum aestivum. ;50D15M43.056S;013D57M20.988S;sepult
+29 – Hoøešovice III. (5749b).   Beta vulgaris var. rapacea. ;50D16M05.484S;013D56M56.580S;sepult
+30 – Klobuky (5749b).   Medicago sativa.;50D17M28.752S;013D58M08.724S;sepult
+38 – Veltìže (5649c).   Hordeum vulgare. ;50D20M54.16S;13D52M45.63S;sepult
+42 – Køesín (5650a).   Triticum aestivum.;50D23M49.51S;14D0M19.94S;sepult
+43 – Rebešovice (6865d).   Triticum aestivum. ;49D6M3.309S;16D39M5.433S;sepult
+50 – Cvrèovice (6965c).   Zea mays. ;49D0M9.305S;16D30M20.279S;sepult
