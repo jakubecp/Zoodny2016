@@ -1,25 +1,28 @@
 rm(list = ls())
-install.packages (c("rgbif", "raster ", "maptools", "XML", "rgdal", "dismo",
-                  "sqldf", "maps ", "testthat", "adehabitatHS", "roxygen2",
-                  "celestial", "ggplot2", "rJava"))
-library (rgbif) #nefunguje pod ubuntu
-library (raster)
-library (maptools)
-library (XML) #nefunguje pod ubuntu
-library (rgdal) #nefunguje pod ubuntu
-library (dismo)
-library (sqldf)
-library (maps)
-library (testthat)
-library (adehabitatHS)
-library (roxygen2)
+#install.packages (c("rgbif", "raster ", "maptools", "XML", "rgdal", "dismo",
+#                  "sqldf", "maps ", "testthat","roxygen2",
+#                  "celestial", "ggplot2", "rJava"))
+ library (rgbif) #nefunguje 
+# library (raster)
+# library (maptools)
+# library (XML) #nefunguje pod ubuntu
+# library (rgdal) #nefunguje pod ubuntu
+# library (dismo)
+# library (sqldf)
+# library (maps)
+# library (testthat)
+# library (roxygen2)
 library (celestial)
 library (ggplot2)
-library (rJava)
 library (maps)
-
-
-data(wrld_simpl) #create the World map with borders
+#install.packages("spocc", dependencies = TRUE)
+#install.packages("mapproj")
+library(spocc)
+#install.packages("mapr", dependencies = TRUE)
+library (mapr)
+#install.packages("devtools")
+library (devtools)
+#data(wrld_simpl) #create the World map with borders
 ##trasfering data from our observations in czech republic
 #setwd ("C:/Users/jakubecp/Dropbox/SGEM_2015/Article_1")# skola
 #setwd ("C:/Users/pavel/Downloads/Dropbox/SGEM_2015/Article_1/") #doma
@@ -27,7 +30,7 @@ data(wrld_simpl) #create the World map with borders
 cz.nic.raw = read.csv ("data/nicr.czech.csv", header= TRUE, sep=";")
 sikes_sil <- read.csv ("data/Nicrophorinae_Sikes.csv", header=T, sep=";")
 ruzicka_sil <- read.csv ("data/Nicrophorinae_Ruzicka.csv", header=T, sep=";")
-head(sikes_sil)
+head(ruzicka_sil)
 ## first solution for transformation of DMS into the decimal degrees 
 ## with function convert
 # convert<-function(coord){
@@ -48,38 +51,112 @@ head(sikes_sil)
 #   cz.long[i]=convert (as.character (cz.nic.raw[i,6]))
 #   
 # }
+
+#MANIpulation with my original dataset from soil study cz.nic.raw.csv
+
 ## second solution for transformation of DMS to decimal degrees
 ## with celestila packages and function dms2deg
 n=length(cz.nic.raw$lat)
 cz.lat = c()
 cz.long = c()
 for (i in 1:n) {
-  cz.lat[i]=dms2deg (as.character (cz.nic.raw[i,5]), sep="DMS")
-  cz.long[i]=dms2deg (as.character (cz.nic.raw[i,6]), sep="DMS")
+  cz.lat[i]=dms2deg (as.character (cz.nic.raw[i,2]), sep="DMS")
+  cz.long[i]=dms2deg (as.character (cz.nic.raw[i,3]), sep="DMS")
 }
+head (cz.nic.raw)
+
+## merge three datasets cz.lat, cz.long, and spec
+## + decimalLongitude and decimalLatitude
+coord = data.frame (endang_nicro, spec)
+## bind data from previous manipulation (dms to dd) with presence/absence data
+coord.cz = data.frame (long = cz.long, lat = cz.lat, 
+                       spec = cz.nic.raw$spec)
+
 
 #RAW data from GBIF (only records with coordinates and you should set up upper limit of them)
-n.ant<- occ_search(scientificName = "Nicrophorus antennatus",
-                           hasCoordinate= TRUE, limit = 500)
-#coordinates of observations (filter out NAs and obvious mistakes!)
-coord <- data.frame (long = n.ant$data$decimalLongitude ,
-                     lat= n.ant$data$decimalLatitude)
+# endang_nicro <- occ(query = c("Nicrophorus antennatus","Nicrophorus germanicus", "Nicrophorus sepultor"),
+#                     from = 'gbif', has_coords = TRUE)
+# warnings()
+# str(endang_nicro)
+endang_nicro_search<- occ_search(scientificName = c("Nicrophorus antennatus","Nicrophorus germanicus", "Nicrophorus sepultor"),
+                           hasCoordinate= TRUE, limit = 3000)
+str (endang_nicro)
 
-## merge three datasets cz.lat, cz.long, antennatus (0,1), 
-## + decimalLongitude and decimalLatitude
-# new line to coord data frame with presence/absence data
-antenn = c(1,1,1,1,1,1,1,1,1,1)
-coord = data.frame (coord, antenn)
-## bind data from previous manipulation (dms to dd) with presence/absence data
-coord.cz = data.frame (long = cz.long, lat = cz.lat, antenn = cz.nic.raw$antennatus)
+#coordinates of observations from GBIF (filter out NAs and obvious mistakes!)
+
+coord.ant.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus antennatus`$data
+                         $decimalLongitude ,
+                     lat= endang_nicro_search$`Nicrophorus antennatus`$data$
+                       decimalLatitude)
+spec.ant.gbif <- rep ("antennatus", length (coord.ant.gbif$long))
+
+coord.ant <- data.frame (coord.ant.raw, spec= spec.ant.gbif)
+
+
+coord.ger.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus germanicus`$
+                           data$decimalLongitude ,
+                         lat= endang_nicro_search$`Nicrophorus germanicus`$
+                           data$decimalLatitude)
+
+spec.ger.gbif <- rep ("german", length (coord.ger.gbif$long))
+
+coord.ger <- data.frame (coord.ger.gbif, spec= spec.ger.gbif)
+
+
+coord.sep.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus sepultor`$
+                           data$decimalLongitude ,
+                         lat= endang_nicro_search$`Nicrophorus sepultor`$data$
+                           decimalLatitude)
+spec.sep.gbif <- rep ("sepult", length (coord.sep.gbif$long))
+
+coord.sep <- data.frame (coord.sep.gbif, spec= spec.sep.gbif)
+
+
+
+
+endang_nicro <- rbind (coord.ant, coord.ger, coord.sep)
+
+#Data manipulation and selection for Nicrophorinae_Sikes
+
+
+sikes.coord.ant<- data.frame (long = sikes_sil$long [sikes_sil$spec== "antennatus"],
+                            lat =sikes_sil$lat [sikes_sil$spec== "antennatus"],
+                            spec = sikes_sil$spec[sikes_sil$spec== "antennatus"])
+sikes.coord.ger<- data.frame (long = sikes_sil$long [sikes_sil$spec== "germanicus"],
+                              lat =sikes_sil$lat [sikes_sil$spec== "germanicus"],
+                              spec = sikes_sil$spec[sikes_sil$spec== "germanicus"])
+sikes.coord.sep<- data.frame (long = sikes_sil$long [sikes_sil$spec== "sepultor"],
+                              lat =sikes_sil$lat [sikes_sil$spec== "sepultor"],
+                              spec = sikes_sil$spec[sikes_sil$spec== "sepultor"])
+
+sikes.coord.with_NAs <- rbind (sikes.coord.ant, sikes.coord.ger, sikes.coord.sep)
+sikes.coord<- sikes.coord.with_NAs [complete.cases(sikes.coord.with_NAs),]
+#Data manipulation and selection for Nicrophorinae_Ruzicka
+
+ruzicka.coord.ant <- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== "antennatus"],
+                                 lat =ruzicka_sil$lat [ruzicka_sil$DRUH== "antennatus"],
+                                 spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== "antennatus"])
+ruzicka.coord.ger<- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== "germanicus"],
+                              lat =ruzicka_sil$lat [ruzicka_sil$DRUH== "germanicus"],
+                              spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== "germanicus"])
+ruzicka.coord.sep<- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== "sepultor"],
+                              lat =ruzicka_sil$lat [ruzicka_sil$DRUH== "sepultor"],
+                              spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== "sepultor"])
+
+ruzicka.coord.with_NAs <- rbind (ruzicka.coord.ant, ruzicka.coord.ger, ruzicka.coord.sep)
+ruzicka.coord<- ruzicka.coord.with_NAs [complete.cases(ruzicka.coord.with_NAs),]
+
+
+
 ## bind both dataframes (GBIF + CZ) together
-coord.full = rbind (coord, coord.cz)
+coord.full = rbind (endang_nicro, coord.cz, ruzicka.coord, sikes.coord)
 
-## created two data frames with presence data and absence data.
-coord = data.frame (long = coord.full$long [coord.full$antenn == "1"],
-                    lat = coord.full$lat [coord.full$antenn == "1"])
-coord.neg = data.frame (long = coord.full$long [coord.full$antenn == "0"],
-                        lat = coord.full$lat [coord.full$antenn == "0"])
+
+# ## created two data frames with presence data and absence data.
+# coord = data.frame (long = coord.full$long [coord.full$antenn == "1"],
+#                     lat = coord.full$lat [coord.full$antenn == "1"])
+# coord.neg = data.frame (long = coord.full$long [coord.full$antenn == "0"],
+#                         lat = coord.full$lat [coord.full$antenn == "0"])
 
 X11()
 plot (coord, xlim=c(12,25), ylim=c(40,55))
