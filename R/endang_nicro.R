@@ -78,12 +78,15 @@ coord.cz = data.frame (long = cz.long, lat = cz.lat,
 #                     from = 'gbif', has_coords = TRUE)
 # warnings()
 # str(endang_nicro)
-endang_nicro_search<- occ_search(scientificName = c("Nicrophorus antennatus","Nicrophorus germanicus", "Nicrophorus sepultor"),
+endang_nicro_search<- occ_search(scientificName = c("Nicrophorus antennatus",
+                                                    "Nicrophorus germanicus", 
+                                                    "Nicrophorus sepultor", 
+                                                    "Nicrophorus vestigator"),
                            hasCoordinate= TRUE, limit = 3000)
 str (endang_nicro)
 
 #coordinates of observations from GBIF (filter out NAs and obvious mistakes!)
-
+#Antennatus
 coord.ant.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus antennatus`$data
                          $decimalLongitude ,
                      lat= endang_nicro_search$`Nicrophorus antennatus`$data$
@@ -92,7 +95,7 @@ spec.ant.gbif <- rep ("antennatus", length (coord.ant.gbif$long))
 
 coord.ant <- data.frame (coord.ant.raw, spec= spec.ant.gbif)
 
-
+#Garmanicus
 coord.ger.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus germanicus`$
                            data$decimalLongitude ,
                          lat= endang_nicro_search$`Nicrophorus germanicus`$
@@ -102,7 +105,7 @@ spec.ger.gbif <- rep ("german", length (coord.ger.gbif$long))
 
 coord.ger <- data.frame (coord.ger.gbif, spec= spec.ger.gbif)
 
-
+#Sepultor
 coord.sep.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus sepultor`$
                            data$decimalLongitude ,
                          lat= endang_nicro_search$`Nicrophorus sepultor`$data$
@@ -110,11 +113,16 @@ coord.sep.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus sepultor`$
 spec.sep.gbif <- rep ("sepult", length (coord.sep.gbif$long))
 
 coord.sep <- data.frame (coord.sep.gbif, spec= spec.sep.gbif)
+#Vestigator
+coord.vest.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus vestigator`$data
+                              $decimalLongitude ,
+                              lat= endang_nicro_search$`Nicrophorus vestigator`$data$
+                                decimalLatitude)
+spec.vest.gbif <- rep ("vestigator", length (coord.vest.gbif$long))
+coord.vest <- data.frame (coord.vest.gbif, spec= spec.vest.gbif)
 
 
-
-
-endang_nicro <- rbind (coord.ant, coord.ger, coord.sep)
+endang_nicro <- rbind (coord.ant, coord.ger, coord.sep, coord.vest)
 
 #Data manipulation and selection for Nicrophorinae_Sikes
 
@@ -128,8 +136,11 @@ sikes.coord.ger<- data.frame (long = sikes_sil$long [sikes_sil$spec== "germanicu
 sikes.coord.sep<- data.frame (long = sikes_sil$long [sikes_sil$spec== "sepultor"],
                               lat =sikes_sil$lat [sikes_sil$spec== "sepultor"],
                               spec = sikes_sil$spec[sikes_sil$spec== "sepultor"])
+sikes.coord.vest<- data.frame (long = sikes_sil$long [sikes_sil$spec== "vestigator"],
+                              lat =sikes_sil$lat [sikes_sil$spec== "vestigator"],
+                              spec = sikes_sil$spec[sikes_sil$spec== "vestigator"])
 
-sikes.coord.with_NAs <- rbind (sikes.coord.ant, sikes.coord.ger, sikes.coord.sep)
+sikes.coord.with_NAs <- rbind (sikes.coord.ant, sikes.coord.ger, sikes.coord.sep, sikes.coord.vest)
 sikes.coord<- sikes.coord.with_NAs [complete.cases(sikes.coord.with_NAs),]
 #Data manipulation and selection for Nicrophorinae_Ruzicka
 
@@ -142,8 +153,11 @@ ruzicka.coord.ger<- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== "ger
 ruzicka.coord.sep<- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== "sepultor"],
                               lat =ruzicka_sil$lat [ruzicka_sil$DRUH== "sepultor"],
                               spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== "sepultor"])
+ruzicka.coord.vest<- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== "vestigator"],
+                                lat =ruzicka_sil$lat [ruzicka_sil$DRUH== "vestigator"],
+                                spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== "vestigator"])
 
-ruzicka.coord.with_NAs <- rbind (ruzicka.coord.ant, ruzicka.coord.ger, ruzicka.coord.sep)
+ruzicka.coord.with_NAs <- rbind (ruzicka.coord.ant, ruzicka.coord.ger, ruzicka.coord.sep, ruzicka.coord.vest)
 ruzicka.coord<- ruzicka.coord.with_NAs [complete.cases(ruzicka.coord.with_NAs),]
 
 
