@@ -8,12 +8,14 @@ rm(list = ls())
  library (raster)
  library (maptools) # for wrld_simpl
 # library (XML) #nefunguje pod ubuntu
-# library (rgdal) #nefunguje pod ubuntu
+library (rgdal) #nefunguje pod ubuntu
  library (dismo)
 # library (sqldf)
 # library (maps)
 # library (testthat)
 # library (roxygen2)
+#install.packages("rJava")
+library (rJava)
 library (celestial)
 library (ggplot2)
 library (maps)
@@ -24,6 +26,7 @@ library(spocc)
 library (mapr)
 #install.packages("ggmap")
 library(ggmap)
+library(rgdal)
 #install.packages(c("mapproj", "maps"))
 #install.packages("devtools")
 #library (devtools)
@@ -210,21 +213,62 @@ plot (wrld_simpl, add=T)
 #setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/") #notas
 #setwd ("/home/pavel/Documents/ENM_2015_Varela/climatic_layers/worldclim") #linux
 #
-?enfa
-variable<- stack (c("bio10.bil", "bio8.bil", "bio16.bil", "bio1.bil"))
+#=======================================================================================
+#lLading ecoregions in R
+ecoregions <- readOGR (dsn = "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/WWE_ecoregions",
+                       layer = "wwf_terr_ecos")
 
-#optional-if you are interested in more local (and quicker) predictions 
-#make an object (e) of certain extant (xmin, xmax, ymin, ymax) for croping
-e<-extent (0,40,40,53)
-#crop your climatic maps
-variable_crop<- crop (variable, e)
+ext <-  extent (-20, 100, 20, 63)
+xy <- abs(apply(as.matrix(bbox(ext)), 1, diff))
+n <- 5
+r <- raster(ext, ncol=xy[1]*n, nrow=xy[2]*n)
+
+raster_ecoregions <- rasterize (ecoregions,r)
+
+#=======================================================================================
+#loading and stacking bioclimatic data
+variable_clim<- stack (c("D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio1.bil", 
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio2.bil", 
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio3.bil", 
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio4.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio5.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio6.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio7.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio8.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio9.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio10.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio11.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio12.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio13.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio14.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio15.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio16.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio17.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio18.bil",
+                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio19.bil"))
+
+variable_clim_crop<- crop (variable_clim, ext)
+#=======================================================================================
+#merging all rasters
+variable <- stack (c(variable_clim_crop, raster_ecoregions))
+
+plot (variable_clim_crop)
+
+#subset of long and latitude data for each Nicrophorus species
+coord.antennatus <- subset (coord.full [coord.full$spec == "antennatus",], select = c(long, lat))
+coord.germanicus <- subset (coord.full [coord.full$spec == "germanicus",], select = c(long, lat))
+coord.sepultor <- subset (coord.full [coord.full$spec == "sepultor",], select = c(long, lat))
+coord.vestigator <- subset (coord.full [coord.full$spec == "vestigator",], select = c(long, lat))
+
 
 #Project niches of target species by extracting values from raster and ploting them
-niche <- extract (variable_crop, coord)
+niche <- extract (variable_clim_crop, coord.antennatus)
 niche <- as.data.frame (niche)
 X11()
 par (mfrow=c(1,2))
-plot (niche$bio1, niche$bio10, xlab= "prectip of warmest qrt" 
+str(niche)
+plot (niche)
+plot (niche$bio1, niche$bio12, xlab= "prectip of warmest qrt" 
       , ylab= "temp warmest qurt" )
 plot (niche$bio16, niche$bio8 , xlab= "precip of wettest qrt" ,
       ylab= "temp of wettest qrt" )
@@ -232,7 +276,7 @@ plot (niche$bio16, niche$bio8 , xlab= "precip of wettest qrt" ,
 # MAXENT model (basic setup) - creates values of the model,
 # which are used in checking the behavior of the model 
 # and making predictions (fallowing steps) 
-maxent_all <- maxent (variable_crop, coord, args=c("maximumbackground=1000",
+maxent_all <- maxent (variable_clim_crop, coord.antennatus, args=c("maximumbackground=1000",
                                                    "betamultiplier=1",
                                                    "defaultprevalence=0.5"))
 # #maxent_all2 <- maxent (variable_crop, coord, args=c("maximumbackground=1000",
