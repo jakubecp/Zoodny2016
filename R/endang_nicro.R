@@ -253,13 +253,14 @@ variable_clim_crop<- crop (variable_clim, ext)
 variable <- stack (c(variable_clim_crop, raster_ecoregions))
 
 plot (variable_clim_crop)
-
+#=======================================================================================
 #subset of long and latitude data for each Nicrophorus species
 coord.antennatus <- subset (coord.full [coord.full$spec == "antennatus",], select = c(long, lat))
 coord.germanicus <- subset (coord.full [coord.full$spec == "germanicus",], select = c(long, lat))
 coord.sepultor <- subset (coord.full [coord.full$spec == "sepultor",], select = c(long, lat))
 coord.vestigator <- subset (coord.full [coord.full$spec == "vestigator",], select = c(long, lat))
 
+#=======================================================================================
 
 #Project niches of target species by extracting values from raster and ploting them
 niche <- extract (variable_clim_crop, coord.antennatus)
@@ -272,7 +273,7 @@ plot (niche$bio1, niche$bio12, xlab= "prectip of warmest qrt"
       , ylab= "temp warmest qurt" )
 plot (niche$bio16, niche$bio8 , xlab= "precip of wettest qrt" ,
       ylab= "temp of wettest qrt" )
-
+#=======================================================================================
 # MAXENT model (basic setup) - creates values of the model,
 # which are used in checking the behavior of the model 
 # and making predictions (fallowing steps) 
