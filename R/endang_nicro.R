@@ -2,12 +2,14 @@ rm(list = ls())
 #install.packages (c("rgbif", "raster ", "maptools", "XML", "rgdal", "dismo",
 #                  "sqldf", "maps ", "testthat","roxygen2",
 #                  "celestial", "ggplot2", "rJava"))
+#=======================================================================================
+#PACKAGES used in this script
  library (rgbif) #nefunguje 
-# library (raster)
+ library (raster)
  library (maptools) # for wrld_simpl
 # library (XML) #nefunguje pod ubuntu
 # library (rgdal) #nefunguje pod ubuntu
-# library (dismo)
+ library (dismo)
 # library (sqldf)
 # library (maps)
 # library (testthat)
@@ -20,42 +22,22 @@ library (mapproj)
 library(spocc)
 #install.packages("mapr", dependencies = TRUE)
 library (mapr)
+#install.packages("ggmap")
 library(ggmap)
 #install.packages(c("mapproj", "maps"))
 #install.packages("devtools")
 #library (devtools)
+#=======================================================================================
 data(wrld_simpl) #create the World map with borders
-##trasfering data from our observations in czech republic
-#setwd ("C:/Users/jakubecp/Dropbox/SGEM_2015/Article_1")# skola
-#setwd ("C:/Users/pavel/Downloads/Dropbox/SGEM_2015/Article_1/") #doma
-#setwd ("/home/pavel/Dropbox/SGEM_2015/Article_1 ") #linux
+#=======================================================================================
+##Loading all datasets
 cz.nic.raw = read.csv ("data/nicr.czech.csv", header= TRUE, sep=";")
 sikes_sil <- read.csv ("data/Nicrophorinae_Sikes.csv", header=T, sep=";")
 ruzicka_sil <- read.csv ("data/Nicrophorinae_Ruzicka.csv", header=T, sep=";")
-head(ruzicka_sil)
-## first solution for transformation of DMS into the decimal degrees 
-## with function convert
-# convert<-function(coord){
-#   tmp1=strsplit(coord,"D")
-#   tmp2=strsplit(tmp1[[1]][2],"M")
-#   tmp3=strsplit(tmp2[[1]][2],"S")
-#   dec=c(as.numeric(tmp1[[1]][1]),as.numeric(tmp2[[1]][1]),as.numeric(tmp3[[1]]))
-#   c<-abs(dec[1])+dec[2]/60+dec[3]/3600
-#   c<-ifelse(dec[1]<0,-c,c)
-#   return(c)
-# }
-# n1=length(cz.nic.raw$lat)
-# n2=length(cz.nic.raw$long)
-# cz.lat= c()
-# cz.long=c()
-# for (i in 1:n1) {
-#   cz.lat[i]=convert (as.character (cz.nic.raw[i,5]))
-#   cz.long[i]=convert (as.character (cz.nic.raw[i,6]))
-#   
-# }
+
 
 #MANIpulation with my original dataset from soil study cz.nic.raw.csv
-
+#=======================================================================================
 ## second solution for transformation of DMS to decimal degrees
 ## with celestila packages and function dms2deg
 n=length(cz.nic.raw$lat)
@@ -74,7 +56,7 @@ head (cz.nic.raw)
 coord.cz = data.frame (long = cz.long, lat = cz.lat, 
                        spec = cz.nic.raw$spec)
 
-
+#=======================================================================================
 #RAW data from GBIF (only records with coordinates and you should set up upper limit of them)
 # endang_nicro <- occ(query = c("Nicrophorus antennatus","Nicrophorus germanicus", "Nicrophorus sepultor"),
 #                     from = 'gbif', has_coords = TRUE)
@@ -89,99 +71,120 @@ str (endang_nicro_search)
 
 #coordinates of observations from GBIF (filter out NAs and obvious mistakes!)
 #Antennatus
-coord.ant.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus antennatus`$data
-                         $decimalLongitude ,
+coord.ant <- data.frame (long = endang_nicro_search$`Nicrophorus antennatus`$
+                           data$decimalLongitude,
                      lat= endang_nicro_search$`Nicrophorus antennatus`$data$
-                       decimalLatitude)
-spec.ant.gbif <- rep ("antennatus", length (coord.ant.gbif$long))
-
-coord.ant <- data.frame (coord.ant.gbif, spec= spec.ant.gbif)
-
+                       decimalLatitude,
+                     spec=rep ("antennatus", length (endang_nicro_search$
+                              `Nicrophorus antennatus`$data$decimalLongitude)))
 #Garmanicus
-coord.ger.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus germanicus`$
-                           data$decimalLongitude ,
+coord.ger <- data.frame (long = endang_nicro_search$`Nicrophorus germanicus`$
+                              data$decimalLongitude,
                          lat= endang_nicro_search$`Nicrophorus germanicus`$
-                           data$decimalLatitude)
-
-spec.ger.gbif <- rep ("german", length (coord.ger.gbif$long))
-
-coord.ger <- data.frame (coord.ger.gbif, spec= spec.ger.gbif)
+                               data$decimalLatitude,
+                         spec= rep ("germanicus", length (endang_nicro_search$
+                              `Nicrophorus germanicus`$data$decimalLongitude)))
+coord.ger <- coord.ger [-c(2,3,4),] # nonsence data of occurence
 
 #Sepultor
-coord.sep.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus sepultor`$
+coord.sep <- data.frame (long = endang_nicro_search$`Nicrophorus sepultor`$
                            data$decimalLongitude ,
-                         lat= endang_nicro_search$`Nicrophorus sepultor`$data$
-                           decimalLatitude)
-spec.sep.gbif <- rep ("sepult", length (coord.sep.gbif$long))
-
-coord.sep <- data.frame (coord.sep.gbif, spec= spec.sep.gbif)
+                         lat= endang_nicro_search$`Nicrophorus sepultor`$
+                           data$decimalLatitude,
+                         spec= rep ("sepultor", length (endang_nicro_search$
+                              `Nicrophorus sepultor`$data$decimalLongitude)))
 #Vestigator
-coord.vest.gbif <- data.frame (long = endang_nicro_search$`Nicrophorus vestigator`$data
+coord.vest <- data.frame (long = endang_nicro_search$`Nicrophorus vestigator`$
+                            data
                               $decimalLongitude ,
-                              lat= endang_nicro_search$`Nicrophorus vestigator`$data$
-                                decimalLatitude)
-spec.vest.gbif <- rep ("vestigator", length (coord.vest.gbif$long))
-coord.vest <- data.frame (coord.vest.gbif, spec= spec.vest.gbif)
-
+                              lat= endang_nicro_search$`Nicrophorus vestigator`$
+                            data$
+                                decimalLatitude,
+                              spec= rep ("vestigator", length (endang_nicro_search$
+                                `Nicrophorus vestigator`$data$decimalLongitude)))
 
 endang_nicro <- rbind (coord.ant, coord.ger, coord.sep, coord.vest)
-
+#=======================================================================================
 #Data manipulation and selection for Nicrophorinae_Sikes
 
+sikes.coord.ant<- data.frame (long = sikes_sil$long [sikes_sil$spec== 
+                                                       "antennatus"],
+                            lat =sikes_sil$lat [sikes_sil$spec== 
+                                                  "antennatus"],
+                            spec = sikes_sil$spec[sikes_sil$spec== 
+                                                    "antennatus"])
+sikes.coord.ger<- data.frame (long = sikes_sil$long [sikes_sil$spec== 
+                                                       "germanicus"],
+                              lat =sikes_sil$lat [sikes_sil$spec== 
+                                                    "germanicus"],
+                              spec = sikes_sil$spec[sikes_sil$spec== 
+                                                      "germanicus"])
+sikes.coord.sep<- data.frame (long = sikes_sil$long [sikes_sil$spec== 
+                                                       "sepultor"],
+                              lat =sikes_sil$lat [sikes_sil$spec== 
+                                                    "sepultor"],
+                              spec = sikes_sil$spec[sikes_sil$spec== 
+                                                      "sepultor"])
+sikes.coord.vest<- data.frame (long = sikes_sil$long [sikes_sil$spec== 
+                                                        "vestigator"],
+                              lat =sikes_sil$lat [sikes_sil$spec== 
+                                                    "vestigator"],
+                              spec = sikes_sil$spec[sikes_sil$spec== 
+                                                      "vestigator"])
 
-sikes.coord.ant<- data.frame (long = sikes_sil$long [sikes_sil$spec== "antennatus"],
-                            lat =sikes_sil$lat [sikes_sil$spec== "antennatus"],
-                            spec = sikes_sil$spec[sikes_sil$spec== "antennatus"])
-sikes.coord.ger<- data.frame (long = sikes_sil$long [sikes_sil$spec== "germanicus"],
-                              lat =sikes_sil$lat [sikes_sil$spec== "germanicus"],
-                              spec = sikes_sil$spec[sikes_sil$spec== "germanicus"])
-sikes.coord.sep<- data.frame (long = sikes_sil$long [sikes_sil$spec== "sepultor"],
-                              lat =sikes_sil$lat [sikes_sil$spec== "sepultor"],
-                              spec = sikes_sil$spec[sikes_sil$spec== "sepultor"])
-sikes.coord.vest<- data.frame (long = sikes_sil$long [sikes_sil$spec== "vestigator"],
-                              lat =sikes_sil$lat [sikes_sil$spec== "vestigator"],
-                              spec = sikes_sil$spec[sikes_sil$spec== "vestigator"])
-
-sikes.coord.with_NAs <- rbind (sikes.coord.ant, sikes.coord.ger, sikes.coord.sep, sikes.coord.vest)
+sikes.coord.with_NAs <- rbind (sikes.coord.ant, sikes.coord.ger,
+                               sikes.coord.sep, sikes.coord.vest)
 sikes.coord<- sikes.coord.with_NAs [complete.cases(sikes.coord.with_NAs),]
+#=======================================================================================
 #Data manipulation and selection for Nicrophorinae_Ruzicka
 
-ruzicka.coord.ant <- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== "antennatus"],
-                                 lat =ruzicka_sil$lat [ruzicka_sil$DRUH== "antennatus"],
-                                 spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== "antennatus"])
-ruzicka.coord.ger<- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== "germanicus"],
-                              lat =ruzicka_sil$lat [ruzicka_sil$DRUH== "germanicus"],
-                              spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== "germanicus"])
-ruzicka.coord.sep<- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== "sepultor"],
-                              lat =ruzicka_sil$lat [ruzicka_sil$DRUH== "sepultor"],
-                              spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== "sepultor"])
-ruzicka.coord.vest<- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== "vestigator"],
-                                lat =ruzicka_sil$lat [ruzicka_sil$DRUH== "vestigator"],
-                                spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== "vestigator"])
+ruzicka.coord.ant <- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== 
+                                                            "antennatus"],
+                                 lat =ruzicka_sil$lat [ruzicka_sil$DRUH== 
+                                                         "antennatus"],
+                                 spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== 
+                                                           "antennatus"])
+ruzicka.coord.ger<- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== 
+                                                           "germanicus"],
+                              lat =ruzicka_sil$lat [ruzicka_sil$DRUH== 
+                                                      "germanicus"],
+                              spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== 
+                                                        "germanicus"])
+ruzicka.coord.sep<- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== 
+                                                           "sepultor"],
+                              lat =ruzicka_sil$lat [ruzicka_sil$DRUH== 
+                                                      "sepultor"],
+                              spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== 
+                                                        "sepultor"])
+ruzicka.coord.vest<- data.frame (long = ruzicka_sil$long [ruzicka_sil$DRUH== 
+                                                            "vestigator"],
+                                lat =ruzicka_sil$lat [ruzicka_sil$DRUH== 
+                                                        "vestigator"],
+                                spec = ruzicka_sil$DRUH[ruzicka_sil$DRUH== 
+                                                          "vestigator"])
 
-ruzicka.coord.with_NAs <- rbind (ruzicka.coord.ant, ruzicka.coord.ger, ruzicka.coord.sep, ruzicka.coord.vest)
+ruzicka.coord.with_NAs <- rbind (ruzicka.coord.ant, ruzicka.coord.ger, 
+                                 ruzicka.coord.sep, ruzicka.coord.vest)
 ruzicka.coord<- ruzicka.coord.with_NAs [complete.cases(ruzicka.coord.with_NAs),]
-
-
+#=======================================================================================
 
 ## bind both dataframes (GBIF + CZ) together
 coord.full = rbind (endang_nicro, coord.cz, ruzicka.coord, sikes.coord)
 head(coord.full)
 
-
+#=======================================================================================
 #map of endangered Nicrophorinae occurence in Europe
-map=get_map (location="Europe", zoom=3)
+map=get_map (location="Europe", zoom=4)
 ggmap(map)
 str(map)
+
 # tiff (filename="outputs/Nicrophoriane_occurence.tiff", 
 #       width=2000, height=2000, 
 #       compression="lzw", res= 300)
-#coord.ant <- coord.full[coord.full$spec == "antennatus",] #exampe of 
-#selection for plotting
 
 nicroph.occur=  ggmap(map)+
-  geom_point (aes (x = coord.full$long, 
-                   y = coord.full$lat), data = coord.full)+
+  geom_point (aes (x = endang_nicro$long, 
+                   y = endang_nicro$lat, colour=endang_nicro$spec ), data = endang_nicro)+
   xlab("")+
   ylab("")
 
@@ -189,6 +192,8 @@ plot (coord.full$long,coord.full$lat)
 plot (wrld_simpl, add=T)
 
 # dev.off()
+
+#=======================================================================================
 # ## created two data frames with presence data and absence data.
 # coord = data.frame (long = coord.full$long [coord.full$antenn == "1"],
 #                     lat = coord.full$lat [coord.full$antenn == "1"])
@@ -202,8 +207,9 @@ plot (wrld_simpl, add=T)
 #choose the right (important) climatic variables (http://www.worldclim.org/bioclim) 
 #for your species and stack them! USE ENFA (package adehabitat) for selection of the right variables 
 #if you do not know a lot about them
-setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/") #notas
+#setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/") #notas
 #setwd ("/home/pavel/Documents/ENM_2015_Varela/climatic_layers/worldclim") #linux
+#
 ?enfa
 variable<- stack (c("bio10.bil", "bio8.bil", "bio16.bil", "bio1.bil"))
 
