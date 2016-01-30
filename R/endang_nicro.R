@@ -215,37 +215,47 @@ plot (wrld_simpl, add=T)
 #
 #=======================================================================================
 #lLading ecoregions in R
-ecoregions <- readOGR (dsn = "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/WWE_ecoregions",
-                       layer = "wwf_terr_ecos")
+# ecoregions <- readOGR (dsn = "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/WWE_ecoregions",
+#                        layer = "wwf_terr_ecos")
 
 ext <-  extent (-20, 100, 20, 63)
 xy <- abs(apply(as.matrix(bbox(ext)), 1, diff))
 n <- 5
 r <- raster(ext, ncol=xy[1]*n, nrow=xy[2]*n)
 
-raster_ecoregions <- rasterize (ecoregions,r)
+# raster_ecoregions <- rasterize (ecoregions,r)
 
 #=======================================================================================
+
 #loading and stacking bioclimatic data
-variable_clim<- stack (c("D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio1.bil", 
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio2.bil", 
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio3.bil", 
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio4.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio5.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio6.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio7.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio8.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio9.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio10.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio11.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio12.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio13.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio14.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio15.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio16.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio17.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio18.bil",
-                    "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim/bio19.bil"))
+in_dir <- function(dir, code) {
+  cur <- getwd()
+  setwd(dir)
+  on.exit(setwd(cur))
+  
+  force(code)
+}
+
+#Loading data from worldclim
+in_dir ("D://Zaloha_notebook/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/worldclim", variable_clim<- stack (c("bio1.bil", 
+  "bio2.bil", 
+  "bio3.bil", 
+  "bio4.bil",
+  "bio5.bil",
+  "bio6.bil",
+  "bio7.bil",
+  "bio8.bil",
+  "bio9.bil",
+  "bio10.bil",
+  "bio11.bil",
+  "bio12.bil",
+  "bio13.bil",
+  "bio14.bil",
+  "bio15.bil",
+  "bio16.bil",
+  "bio17.bil",
+  "bio18.bil",
+  "bio19.bil"))) 
 
 variable_clim_crop<- crop (variable_clim, ext)
 #=======================================================================================
