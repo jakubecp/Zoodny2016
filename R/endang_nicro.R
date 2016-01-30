@@ -260,9 +260,9 @@ in_dir ("D://Zaloha_notebook/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climati
 variable_clim_crop<- crop (variable_clim, ext)
 #=======================================================================================
 #merging all rasters
-variable <- stack (c(variable_clim_crop, raster_ecoregions))
-
-plot (variable_clim_crop)
+# variable <- stack (c(variable_clim_crop, raster_ecoregions))
+# 
+# plot (variable_clim_crop)
 #=======================================================================================
 #subset of long and latitude data for each Nicrophorus species
 coord.antennatus <- subset (coord.full [coord.full$spec == "antennatus",], select = c(long, lat))
@@ -312,13 +312,13 @@ maxent_all@results[5]
 # maxent_all5@results[5]
 
 #Predict probability of occurence
-maxent_all_predict<- predict (maxent_all, variable_crop)
+maxent_all_predict<- predict (maxent_all, variable_clim_crop)
 
 #Plot the prediction
 X11()
 plot (maxent_all_predict, 
-      main="Nicrophorus antennatus distribution (Maxent/all)", xlim =c(-120,40),ylim=c(30,70) )
-plot (wrld_simpl, add=TRUE, xlim=c(-120,40),ylim=c(30,70))
+      main="Nicrophorus antennatus distribution (Maxent/all)", xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]) )
+plot (wrld_simpl, add=TRUE, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]) )
 
 
 #reclasification reclasification (based on maximum training sensitivityplus specificity logistic treshold)
