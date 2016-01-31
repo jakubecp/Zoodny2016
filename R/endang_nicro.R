@@ -287,9 +287,19 @@ plot (niche$bio16, niche$bio8 , xlab= "precip of wettest qrt" ,
 # MAXENT model (basic setup) - creates values of the model,
 # which are used in checking the behavior of the model 
 # and making predictions (fallowing steps) 
-maxent_all <- maxent (variable_clim_crop, coord.antennatus, args=c("maximumbackground=1000",
+maxent_ant <- maxent (variable_clim_crop, coord.antennatus, args=c("maximumbackground=1000",
                                                    "betamultiplier=1",
                                                    "defaultprevalence=0.5"))
+maxent_ger <- maxent (variable_clim_crop, coord.germanicus, args=c("maximumbackground=1000",
+  "betamultiplier=1",
+  "defaultprevalence=0.5"))
+maxent_sep <- maxent (variable_clim_crop, coord.sepultor, args=c("maximumbackground=1000",
+  "betamultiplier=1",
+  "defaultprevalence=0.5"))
+maxent_ves <- maxent (variable_clim_crop, coord.vestigator, args=c("maximumbackground=1000",
+  "betamultiplier=1",
+  "defaultprevalence=0.5"))
+
 # #maxent_all2 <- maxent (variable_crop, coord, args=c("maximumbackground=1000",
 #                                                     "betamultiplier=2",
 #                                                     "defaultprevalence=0.5"))
@@ -299,26 +309,56 @@ maxent_all <- maxent (variable_clim_crop, coord.antennatus, args=c("maximumbackg
 #check the behavior of your data to variables (graph) and play
 #with "betamultiplier" for smoother model of climatic variables (values= 1 - inf)
 X11()
-response (maxent_all)
+par (mfrow=c(2,2))
+response (maxent_ant)
+response (maxent_ger)
+response (maxent_sep)
+response (maxent_ves)
+
 # response (maxent_all2)
 # response (maxent_all5)
 
 #all values
-maxent_all@results
+# maxent_all@results
 
 #just AUC
-maxent_all@results[5]
+maxent_ant@results[5]
+maxent_ger@results[5]
+maxent_sep@results[5]
+maxent_ves@results[5]
 # maxent_all2@results[5]
 # maxent_all5@results[5]
 
 #Predict probability of occurence
-maxent_all_predict<- predict (maxent_all, variable_clim_crop)
+maxent_ant_predict<- predict (maxent_ant, variable_clim_crop)
+maxent_ger_predict<- predict (maxent_ger, variable_clim_crop)
+maxent_sep_predict<- predict (maxent_sep, variable_clim_crop)
+maxent_ves_predict<- predict (maxent_ves, variable_clim_crop)
 
-#Plot the prediction
-X11()
-plot (maxent_all_predict, 
-      main="Nicrophorus antennatus distribution (Maxent/all)", xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]) )
-plot (wrld_simpl, add=TRUE, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]) )
+##EXport to TIFF
+tiff (filename="anennatus.tiff", width=5000, height=5000, 
+  compression="lzw", res= 800)
+plot (maxent_ant_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
+dev.off()
+
+tiff (filename="germanicu.tiff", width=5000, height=5000, 
+  compression="lzw", res= 800)
+plot (maxent_ger_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
+dev.off()
+
+tiff (filename="sepultor.tiff", width=5000, height=5000, 
+  compression="lzw", res= 800)
+plot (maxent_sep_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
+dev.off()
+
+tiff (filename="vestgator.tiff", width=5000, height=5000, 
+  compression="lzw", res= 800)
+plot (maxent_ves_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
+dev.off()
 
 
 #reclasification reclasification (based on maximum training sensitivityplus specificity logistic treshold)
