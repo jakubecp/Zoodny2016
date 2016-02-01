@@ -2,6 +2,7 @@ rm(list = ls())
 #install.packages (c("rgbif", "raster ", "maptools", "XML", "rgdal", "dismo",
 #                  "sqldf", "maps ", "testthat","roxygen2",
 #                  "celestial", "ggplot2", "rJava"))
+install.packages("rasterVis")
 #=======================================================================================
 #PACKAGES used in this script
  library (raster)
@@ -24,6 +25,7 @@ library (mapproj)
 library (mapr)
 #install.packages("ggmap")
 library(ggmap)
+library(rasterVis) #ploting rasters in ggplot2
 library(rgdal)
 #install.packages(c("mapproj", "maps"))
 #install.packages("devtools")
@@ -32,8 +34,8 @@ library(rgdal)
 data(wrld_simpl) #create the World map with borders
 #=======================================================================================
 ##Loading all datasets
-coord.full = read.csv ("data/coord.full.csv", header= TRUE, sep=";")
-
+coord.full = read.table ("data/coord.full.csv", header= TRUE, sep=";")
+head (coord.full)
 #=======================================================================================
 #map of endangered Nicrophorinae occurence in Europe
 map=get_map (location="Europe", zoom=4)
@@ -44,14 +46,14 @@ str(map)
 #       width=2000, height=2000, 
 #       compression="lzw", res= 300)
 
-nicroph.occur=  ggmap(map)+
-  geom_point (aes (x = endang_nicro$long, 
-                   y = endang_nicro$lat, colour=endang_nicro$spec ), data = endang_nicro)+
-  xlab("")+
-  ylab("")
-
-plot (coord.full$long,coord.full$lat)
-plot (wrld_simpl, add=T)
+# nicroph.occur=  ggmap(map)+
+#   geom_point (aes (x = endang_nicro$long, 
+#                    y = endang_nicro$lat, colour=endang_nicro$spec ), data = endang_nicro)+
+#   xlab("")+
+#   ylab("")
+# 
+# plot (coord.full$long,coord.full$lat)
+# plot (wrld_simpl, add=T)
 
 # dev.off()
 
@@ -77,7 +79,7 @@ plot (wrld_simpl, add=T)
 # ecoregions <- readOGR (dsn = "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/WWE_ecoregions",
 #                        layer = "wwf_terr_ecos")
 
-ext <-  extent (-20, 45, 20, 63)
+ext <-  extent (-15, 45, 20, 78)
 xy <- abs(apply(as.matrix(bbox(ext)), 1, diff))
 n <- 5
 r <- raster(ext, ncol=xy[1]*n, nrow=xy[2]*n)
@@ -132,16 +134,16 @@ coord.vestigator <- subset (coord.full [coord.full$spec == "vestigator",], selec
 #=======================================================================================
 
 #Project niches of target species by extracting values from raster and ploting them
-niche <- extract (variable_clim_crop, coord.antennatus)
-niche <- as.data.frame (niche)
-X11()
-par (mfrow=c(1,2))
-str(niche)
-plot (niche)
-plot (niche$bio1, niche$bio12, xlab= "prectip of warmest qrt" 
-      , ylab= "temp warmest qurt" )
-plot (niche$bio16, niche$bio8 , xlab= "precip of wettest qrt" ,
-      ylab= "temp of wettest qrt" )
+# niche <- extract (variable_clim_crop, coord.antennatus)
+# niche <- as.data.frame (niche)
+# X11()
+# par (mfrow=c(1,2))
+# str(niche)
+# plot (niche)
+# plot (niche$bio1, niche$bio12, xlab= "prectip of warmest qrt" 
+#       , ylab= "temp warmest qurt" )
+# plot (niche$bio16, niche$bio8 , xlab= "precip of wettest qrt" ,
+#       ylab= "temp of wettest qrt" )
 #=======================================================================================
 # MAXENT model (basic setup) - creates values of the model,
 # which are used in checking the behavior of the model 
@@ -196,33 +198,32 @@ maxent_ves_predict<- predict (maxent_ves, variable_clim_crop)
 
 ##EXport to TIFF
 tiff (filename="outputs/antennatus.tiff", width=5000, height=5000, compression="lzw", res= 800)
-plot (maxent_ant_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-# plot (wrld_simpl, add=T)
-
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
+ant.occur= ggmap(map)+ 
+  gplot (maxent_ant_predict, colours="red")+
+  geom_tile(aes(fill = maxent_ant_predict)) +
+  geom_point (aes (x = long, y = lat), data = coord.antennatus)+
+  xlab("")+
+  ylab("")
+  
+geom_raster (aes(fill="maxent_ant_predict"))+
 dev.off()
 
 tiff (filename="outputs/germanicu.tiff", width=5000, height=5000, 
   compression="lzw", res= 800)
 plot (maxent_ger_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
 # plot (wrld_simpl, add=T)
-
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
 dev.off()
 
 tiff (filename="outputs/sepultor.tiff", width=5000, height=5000, 
   compression="lzw", res= 800)
 plot (maxent_sep_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
 # plot (wrld_simpl, add=T)
-
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
 dev.off()
 
 tiff (filename="outputs/vestigator.tiff", width=5000, height=5000, 
   compression="lzw", res= 800)
 plot (maxent_ves_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
 # plot (wrld_simpl, add=T)
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
 dev.off()
 
 
@@ -262,28 +263,24 @@ tiff (filename="outputs/antennatus_reclas.tiff", width=5000, height=5000,
   compression="lzw", res= 800)
 plot (ant_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
 # plot (wrld_simpl, add=T)
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
 dev.off()
 
 tiff (filename="outputs/germanicus_reclas.tiff", width=5000, height=5000, 
   compression="lzw", res= 800)
 plot (ger_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
 # plot (wrld_simpl, add=T)
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
 dev.off()
 
 tiff (filename="outputs/sepultor_reclas.tiff", width=5000, height=5000, 
   compression="lzw", res= 800)
 plot (sep_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
 # plot (wrld_simpl, add=T)
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
 dev.off()
 
 tiff (filename="outputs/vestigator_reclas.tiff", width=5000, height=5000, 
   compression="lzw", res= 800)
 plot (ves_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
 # plot (wrld_simpl, add=T)
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
 dev.off()
 
 
