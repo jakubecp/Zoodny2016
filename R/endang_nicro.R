@@ -65,48 +65,48 @@ coord.cz = data.frame (long = cz.long, lat = cz.lat,
 #                     from = 'gbif', has_coords = TRUE)
 # warnings()
 # str(endang_nicro)
-endang_nicro_search<- occ_search(scientificName = c("Nicrophorus antennatus",
-                                                    "Nicrophorus germanicus", 
-                                                    "Nicrophorus sepultor", 
-                                                    "Nicrophorus vestigator"),
-                           hasCoordinate= TRUE, limit = 3000)
-str (endang_nicro_search)
-
-#coordinates of observations from GBIF (filter out NAs and obvious mistakes!)
+# endang_nicro_search<- occ_search(scientificName = c("Nicrophorus antennatus",
+#                                                     "Nicrophorus germanicus", 
+#                                                     "Nicrophorus sepultor", 
+#                                                     "Nicrophorus vestigator"),
+#                            hasCoordinate= TRUE, limit = 3000)
+# str (endang_nicro_search)
+# 
+# #coordinates of observations from GBIF (filter out NAs and obvious mistakes!)
 #Antennatus
-coord.ant <- data.frame (long = endang_nicro_search$`Nicrophorus antennatus`$
-                           data$decimalLongitude,
-                     lat= endang_nicro_search$`Nicrophorus antennatus`$data$
-                       decimalLatitude,
-                     spec=rep ("antennatus", length (endang_nicro_search$
-                              `Nicrophorus antennatus`$data$decimalLongitude)))
-#Garmanicus
-coord.ger <- data.frame (long = endang_nicro_search$`Nicrophorus germanicus`$
-                              data$decimalLongitude,
-                         lat= endang_nicro_search$`Nicrophorus germanicus`$
-                               data$decimalLatitude,
-                         spec= rep ("germanicus", length (endang_nicro_search$
-                              `Nicrophorus germanicus`$data$decimalLongitude)))
-coord.ger <- coord.ger [-c(2,3,4),] # nonsence data of occurence
+# coord.ant <- data.frame (long = endang_nicro_search$`Nicrophorus antennatus`$
+#                            data$decimalLongitude,
+#                      lat= endang_nicro_search$`Nicrophorus antennatus`$data$
+#                        decimalLatitude,
+#                      spec=rep ("antennatus", length (endang_nicro_search$
+#                               `Nicrophorus antennatus`$data$decimalLongitude)))
+# #Garmanicus
+# coord.ger <- data.frame (long = endang_nicro_search$`Nicrophorus germanicus`$
+#                               data$decimalLongitude,
+#                          lat= endang_nicro_search$`Nicrophorus germanicus`$
+#                                data$decimalLatitude,
+#                          spec= rep ("germanicus", length (endang_nicro_search$
+#                               `Nicrophorus germanicus`$data$decimalLongitude)))
+# coord.ger <- coord.ger [-c(2,3,4),] # nonsence data of occurence
+# 
+# #Sepultor
+# coord.sep <- data.frame (long = endang_nicro_search$`Nicrophorus sepultor`$
+#                            data$decimalLongitude ,
+#                          lat= endang_nicro_search$`Nicrophorus sepultor`$
+#                            data$decimalLatitude,
+#                          spec= rep ("sepultor", length (endang_nicro_search$
+#                               `Nicrophorus sepultor`$data$decimalLongitude)))
+# #Vestigator
+# coord.vest <- data.frame (long = endang_nicro_search$`Nicrophorus vestigator`$
+#                             data
+#                               $decimalLongitude ,
+#                               lat= endang_nicro_search$`Nicrophorus vestigator`$
+#                             data$
+#                                 decimalLatitude,
+#                               spec= rep ("vestigator", length (endang_nicro_search$
+#                                 `Nicrophorus vestigator`$data$decimalLongitude)))
 
-#Sepultor
-coord.sep <- data.frame (long = endang_nicro_search$`Nicrophorus sepultor`$
-                           data$decimalLongitude ,
-                         lat= endang_nicro_search$`Nicrophorus sepultor`$
-                           data$decimalLatitude,
-                         spec= rep ("sepultor", length (endang_nicro_search$
-                              `Nicrophorus sepultor`$data$decimalLongitude)))
-#Vestigator
-coord.vest <- data.frame (long = endang_nicro_search$`Nicrophorus vestigator`$
-                            data
-                              $decimalLongitude ,
-                              lat= endang_nicro_search$`Nicrophorus vestigator`$
-                            data$
-                                decimalLatitude,
-                              spec= rep ("vestigator", length (endang_nicro_search$
-                                `Nicrophorus vestigator`$data$decimalLongitude)))
-
-endang_nicro <- rbind (coord.ant, coord.ger, coord.sep, coord.vest)
+# endang_nicro <- rbind (coord.ant, coord.ger, coord.sep, coord.vest)
 #=======================================================================================
 #Data manipulation and selection for Nicrophorinae_Sikes
 
@@ -172,7 +172,8 @@ ruzicka.coord<- ruzicka.coord.with_NAs [complete.cases(ruzicka.coord.with_NAs),]
 #=======================================================================================
 
 ## bind both dataframes (GBIF + CZ) together
-coord.full = rbind (endang_nicro, coord.cz, ruzicka.coord, sikes.coord)
+# coord.full = rbind (endang_nicro, coord.cz, ruzicka.coord, sikes.coord)
+coord.full = rbind (coord.cz, ruzicka.coord, sikes.coord)
 head(coord.full)
 
 #=======================================================================================
@@ -218,7 +219,7 @@ plot (wrld_simpl, add=T)
 # ecoregions <- readOGR (dsn = "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/WWE_ecoregions",
 #                        layer = "wwf_terr_ecos")
 
-ext <-  extent (-20, 100, 20, 63)
+ext <-  extent (-20, 45, 20, 63)
 xy <- abs(apply(as.matrix(bbox(ext)), 1, diff))
 n <- 5
 r <- raster(ext, ncol=xy[1]*n, nrow=xy[2]*n)
@@ -336,40 +337,95 @@ maxent_sep_predict<- predict (maxent_sep, variable_clim_crop)
 maxent_ves_predict<- predict (maxent_ves, variable_clim_crop)
 
 ##EXport to TIFF
-tiff (filename="anennatus.tiff", width=5000, height=5000, 
+tiff (filename="outputs/antennatus.tiff", width=5000, height=5000, 
   compression="lzw", res= 800)
 plot (maxent_ant_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
+plot (wrld_simpl, add=T)
+
+# plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
 dev.off()
 
-tiff (filename="germanicu.tiff", width=5000, height=5000, 
+tiff (filename="outputs/germanicu.tiff", width=5000, height=5000, 
   compression="lzw", res= 800)
 plot (maxent_ger_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
+plot (wrld_simpl, add=T)
+
+# plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
 dev.off()
 
-tiff (filename="sepultor.tiff", width=5000, height=5000, 
+tiff (filename="outputs/sepultor.tiff", width=5000, height=5000, 
   compression="lzw", res= 800)
 plot (maxent_sep_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
+plot (wrld_simpl, add=T)
+
+# plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
 dev.off()
 
-tiff (filename="vestgator.tiff", width=5000, height=5000, 
+tiff (filename="outputs/vestigator.tiff", width=5000, height=5000, 
   compression="lzw", res= 800)
 plot (maxent_ves_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
+plot (wrld_simpl, add=T)
+# plot (map, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
 dev.off()
 
 
 #reclasification reclasification (based on maximum training sensitivityplus specificity logistic treshold)
-m = c(0.5014,1,1,0,0.5013,0)
-rclmat = matrix (m,ncol=3,byrow=TRUE)
-endangered_reclas<- reclassify (maxent_all_predict, rclmat)
+reclas <- c(maxent_ant@results[72], maxent_ger@results[72],maxent_sep@results[72],maxent_ves@results[72]) # maximum training specificity and sensitivity log. tresh
+
+
+am = c(reclas[1],1,1,0,reclas[1],0)
+arclmat = matrix (am,ncol=3,byrow=TRUE)
+ant_reclas<- reclassify (maxent_ant_predict, arclmat)
+
+gm = c(reclas[2],1,1,0,reclas[2],0)
+grclmat = matrix (gm,ncol=3,byrow=TRUE)
+ger_reclas<- reclassify (maxent_ger_predict, grclmat)
+
+
+sm = c(reclas[3],1,1,0,reclas[3],0)
+srclmat = matrix (am,ncol=3,byrow=TRUE)
+sep_reclas<- reclassify (maxent_sep_predict, srclmat)
+
+
+vm = c(reclas[4],1,1,0,reclas[4],0)
+vrclmat = matrix (vm,ncol=3,byrow=TRUE)
+ves_reclas<- reclassify (maxent_ves_predict, vrclmat)
+
+
+#map of reclas
+
+
 #X11()
 #plot (endangered_reclas)
 #plot (wrld_simpl, add=TRUE, axes=FALSE) #not a best resolution
 #map("world", interior = TRUE, xlim=c(0,80), ylim=c(20,70), add=TRUE)#this is better resolution
 #map("world", boundary = FALSE, col="gray", add = TRUE) #this could make an interior 
+
+tiff (filename="outputs/antennatus_reclas.tiff", width=5000, height=5000, 
+  compression="lzw", res= 800)
+plot (ant_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (wrld_simpl, add=T)
+dev.off()
+
+tiff (filename="outputs/germanicus_reclas.tiff", width=5000, height=5000, 
+  compression="lzw", res= 800)
+plot (ger_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (wrld_simpl, add=T)
+dev.off()
+
+tiff (filename="outputs/sepultor_reclas.tiff", width=5000, height=5000, 
+  compression="lzw", res= 800)
+plot (sep_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (wrld_simpl, add=T)
+dev.off()
+
+tiff (filename="outputs/vestigator_reclas.tiff", width=5000, height=5000, 
+  compression="lzw", res= 800)
+plot (ves_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (wrld_simpl, add=T)
+dev.off()
+
+
 #of europe be with gray boarders
 
 #experiments with maps - This is IT!!!
