@@ -2,7 +2,7 @@ rm(list = ls())
 #install.packages (c("rgbif", "raster ", "maptools", "XML", "rgdal", "dismo",
 #                  "sqldf", "maps ", "testthat","roxygen2",
 #                  "celestial", "ggplot2", "rJava"))
-install.packages("rasterVis")
+#install.packages("rasterVis")
 #=======================================================================================
 #PACKAGES used in this script
  library (raster)
@@ -198,6 +198,15 @@ maxent_ves_predict<- predict (maxent_ves, variable_clim_crop)
 
 ##EXport to TIFF
 tiff (filename="outputs/antennatus.tiff", width=5000, height=5000, compression="lzw", res= 800)
+X11()
+
+plot (maxent_ger_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+points (coord.antennatus$long, coord.antennatus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20,add=T)
+plot (wrld_simpl, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
+
+dev.off()
+
+
 ant.occur= ggmap(map)+ 
   gplot (maxent_ant_predict, colours="red")+
   geom_tile(aes(fill = maxent_ant_predict)) +
