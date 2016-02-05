@@ -119,6 +119,7 @@ in_dir ("D://Zaloha_notebook/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climati
   "bio19.bil"))) 
 
 variable_clim_crop<- crop (variable_clim, ext)
+
 #=======================================================================================
 #merging all rasters
 # variable <- stack (c(variable_clim_crop, raster_ecoregions))
@@ -131,7 +132,39 @@ coord.germanicus <- subset (coord.full [coord.full$spec == "germanicus",], selec
 coord.sepultor <- subset (coord.full [coord.full$spec == "sepultor",], select = c(long, lat))
 coord.vestigator <- subset (coord.full [coord.full$spec == "vestigator",], select = c(long, lat))
 
-#=======================================================================================
+#===================================================================================
+# #exract variables from coords of each species
+# clim_var.ant <- extract (variable_clim_crop, coord.antennatus)
+# clim_var.ger <- extract (variable_clim_crop, coord.germanicus)
+# clim_var.sep <- extract (variable_clim_crop, coord.sepultor)
+# clim_var.ves <- extract (variable_clim_crop, coord.vestigator)
+# 
+# clim_var.ant<- as.data.frame (clim_var.ant)
+# 
+# #sampling 
+# coord.antennatus.sample <- envSample (coord.antennatus, filters=list(clim_var.ant$bio1,clim_var.ant$bio12), res=list(10,100))
+# 
+# maxent_ant_sampl <- maxent (variable_clim_crop, coord.antennatus.sample, args=c("maximumbackground=1000",
+#   "betamultiplier=1",
+#   "defaultprevalence=0.5"))
+# 
+# maxent_ant_sampl@results[5]
+# 
+# maxent_ant_predict<- predict (maxent_ant_sampl, variable_clim_crop)
+# 
+# reclas <- c(maxent_ant_sampl@results[72]) # maximum training specificity and sensitivity log. tresh
+# 
+# am = c(reclas[1],1,1,0,reclas[1],0)
+# arclmat = matrix (am,ncol=3,byrow=TRUE)
+# ant_reclas<- reclassify (maxent_ant_predict, arclmat)
+# 
+# tiff (filename="outputs/antennatus_reclas_sampl.tiff", width=5000, height=5100, 
+#   compression="lzw", res= 800)
+# plot (ant_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+# points (coord.antennatus.sample$lon, coord.antennatus.sample$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20, col="red", cex=.6 )
+# plot (wrld_simpl, add=T)
+# dev.off()
+#===================================================================================
 
 #Project niches of target species by extracting values from raster and ploting them
 # niche <- extract (variable_clim_crop, coord.antennatus)
@@ -271,24 +304,28 @@ ves_reclas<- reclassify (maxent_ves_predict, vrclmat)
 tiff (filename="outputs/antennatus_reclas.tiff", width=5000, height=5100, 
   compression="lzw", res= 800)
 plot (ant_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+points (coord.antennatus$long, coord.antennatus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20, col="red", cex=.6 )
 plot (wrld_simpl, add=T)
 dev.off()
 
 tiff (filename="outputs/germanicus_reclas.tiff", width=5000, height=5100, 
   compression="lzw", res= 800)
 plot (ger_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+points (coord.germanicus$long, coord.germanicus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20, col="red", cex=.6)
 plot (wrld_simpl, add=T)
 dev.off()
 
 tiff (filename="outputs/sepultor_reclas.tiff", width=5000, height=5100, 
   compression="lzw", res= 800)
 plot (sep_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+points (coord.sepultor$long, coord.sepultor$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20, col="red", cex=.6)
 plot (wrld_simpl, add=T)
 dev.off()
 
 tiff (filename="outputs/vestigator_reclas.tiff", width=5000, height=5100, 
   compression="lzw", res= 800)
 plot (ves_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+points (coord.vestigator$long, coord.vestigator$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20, col="red", cex=.6)
 plot (wrld_simpl, add=T)
 dev.off()
 
