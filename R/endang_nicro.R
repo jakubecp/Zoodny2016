@@ -79,7 +79,7 @@ str(map)
 # ecoregions <- readOGR (dsn = "D:/Spatial_modeling/ENM_2015_Varela/climatic_layers/WWE_ecoregions",
 #                        layer = "wwf_terr_ecos")
 
-ext <-  extent (-15, 45, 20, 78)
+ext <-  extent (-15, 55, 25, 75)
 xy <- abs(apply(as.matrix(bbox(ext)), 1, diff))
 n <- 5
 r <- raster(ext, ncol=xy[1]*n, nrow=xy[2]*n)
@@ -268,28 +268,28 @@ ves_reclas<- reclassify (maxent_ves_predict, vrclmat)
 #map("world", interior = TRUE, xlim=c(0,80), ylim=c(20,70), add=TRUE)#this is better resolution
 #map("world", boundary = FALSE, col="gray", add = TRUE) #this could make an interior 
 
-tiff (filename="outputs/antennatus_reclas.tiff", width=5000, height=5000, 
+tiff (filename="outputs/antennatus_reclas.tiff", width=5000, height=5100, 
   compression="lzw", res= 800)
 plot (ant_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-# plot (wrld_simpl, add=T)
+plot (wrld_simpl, add=T)
 dev.off()
 
-tiff (filename="outputs/germanicus_reclas.tiff", width=5000, height=5000, 
+tiff (filename="outputs/germanicus_reclas.tiff", width=5000, height=5100, 
   compression="lzw", res= 800)
 plot (ger_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-# plot (wrld_simpl, add=T)
+plot (wrld_simpl, add=T)
 dev.off()
 
-tiff (filename="outputs/sepultor_reclas.tiff", width=5000, height=5000, 
+tiff (filename="outputs/sepultor_reclas.tiff", width=5000, height=5100, 
   compression="lzw", res= 800)
 plot (sep_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-# plot (wrld_simpl, add=T)
+plot (wrld_simpl, add=T)
 dev.off()
 
-tiff (filename="outputs/vestigator_reclas.tiff", width=5000, height=5000, 
+tiff (filename="outputs/vestigator_reclas.tiff", width=5000, height=5100, 
   compression="lzw", res= 800)
 plot (ves_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-# plot (wrld_simpl, add=T)
+plot (wrld_simpl, add=T)
 dev.off()
 
 
