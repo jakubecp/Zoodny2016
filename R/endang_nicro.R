@@ -1,8 +1,8 @@
 rm(list = ls())
-#install.packages (c("rgbif", "raster ", "maptools", "XML", "rgdal", "dismo",
+# install.packages (c("rgbif", "raster ", "maptools", "XML", "rgdal", "dismo",
 #                  "sqldf", "maps ", "testthat","roxygen2",
 #                  "celestial", "ggplot2", "rJava"))
-#install.packages("rasterVis")
+# install.packages("rasterVis")
 #=======================================================================================
 #PACKAGES used in this script
  library (raster)
@@ -14,24 +14,32 @@ library (rgdal) #nefunguje pod ubuntu
 # library (maps)
 # library (testthat)
 # library (roxygen2)
-#install.packages("rJava")
+# install.packages("rJava")
 library (rJava)
 library (celestial)
 library (ggplot2)
 library (maps)
 #install.packages("spocc", dependencies = TRUE)
 library (mapproj)
-#install.packages("mapr", dependencies = TRUE)
+# install.packages("mapr", dependencies = TRUE)
 library (mapr)
-#install.packages("ggmap")
+# install.packages("ggmap")
 library(ggmap)
 library(rasterVis) #ploting rasters in ggplot2
 library(rgdal)
+# install.packages("rworldxtra")
+library(rworldmap)
+library(rworldxtra)
 #install.packages(c("mapproj", "maps"))
 #install.packages("devtools")
 #library (devtools)
+# library(devtools)
+# install_github("ggplot2", "kohske", "fix/geom-raster-alpha")
 #=======================================================================================
 data(wrld_simpl) #create the World map with borders
+
+newmap = getMap(resolution="high")
+
 #=======================================================================================
 ##Loading all datasets
 coord.full = read.table ("data/coord.full.csv", header= TRUE, sep=";")
@@ -230,43 +238,33 @@ maxent_sep_predict<- predict (maxent_sep, variable_clim_crop)
 maxent_ves_predict<- predict (maxent_ves, variable_clim_crop)
 
 ##EXport to TIFF
-tiff (filename="outputs/antennatus.tiff", width=5000, height=5000, compression="lzw", res= 800)
-X11()
+# tiff (filename="outputs/antennatus.tiff", width=5000, height=5000, compression="lzw", res= 800)
+# X11()
+# 
+# plot (maxent_ger_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+# points (coord.antennatus$long, coord.antennatus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20,add=T)
+# plot (wrld_simpl, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
+# 
+# dev.off()
 
-plot (maxent_ger_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-points (coord.antennatus$long, coord.antennatus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20,add=T)
-plot (wrld_simpl, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), add=T)
-
-dev.off()
-
-
-ant.occur= ggmap(map)+ 
-  gplot (maxent_ant_predict, colours="red")+
-  geom_tile(aes(fill = maxent_ant_predict)) +
-  geom_point (aes (x = long, y = lat), data = coord.antennatus)+
-  xlab("")+
-  ylab("")
-  
-geom_raster (aes(fill="maxent_ant_predict"))+
-dev.off()
-
-tiff (filename="outputs/germanicu.tiff", width=5000, height=5000, 
-  compression="lzw", res= 800)
-plot (maxent_ger_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-# plot (wrld_simpl, add=T)
-dev.off()
-
-tiff (filename="outputs/sepultor.tiff", width=5000, height=5000, 
-  compression="lzw", res= 800)
-plot (maxent_sep_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-# plot (wrld_simpl, add=T)
-dev.off()
-
-tiff (filename="outputs/vestigator.tiff", width=5000, height=5000, 
-  compression="lzw", res= 800)
-plot (maxent_ves_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-# plot (wrld_simpl, add=T)
-dev.off()
+# 
+# tiff (filename="outputs/germanicu.tiff", width=5000, height=5000, 
+#   compression="lzw", res= 800)
+# plot (maxent_ger_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+# # plot (wrld_simpl, add=T)
+# dev.off()
+# 
+# tiff (filename="outputs/sepultor.tiff", width=5000, height=5000, 
+#   compression="lzw", res= 800)
+# plot (maxent_sep_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+# # plot (wrld_simpl, add=T)
+# dev.off()
+# 
+# tiff (filename="outputs/vestigator.tiff", width=5000, height=5000, 
+#   compression="lzw", res= 800)
+# plot (maxent_ves_predict, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+# # plot (wrld_simpl, add=T)
+# dev.off()
 
 
 #reclasification reclasification (based on maximum training sensitivityplus specificity logistic treshold)
@@ -291,134 +289,245 @@ vm = c(reclas[4],1,1,0,reclas[4],0)
 vrclmat = matrix (vm,ncol=3,byrow=TRUE)
 ves_reclas<- reclassify (maxent_ves_predict, vrclmat)
 
-
-#map of reclas
-
-
+#====================================================================================
+# #map of reclas
+# plot(ant_reclas)
+# r.spdf <- as(ant_reclas, "SpatialPixelsDataFrame")
+# r.df <- as.data.frame(r.spdf)
+# head(r.df)
+# 
+# # then you can use ggplot2 to plot that object
+# 
+# 
+# 
+# g <- ggplot (r.df, aes(x=x, y=y)) + geom_tile(aes(fill = layer)) + coord_equal()
+# print(g)
+# 
+# map=get_map (location="Europe", zoom=4)
+# europe= qmap (location="Europe", zoom=4)
+# ggmap(map)
+# gglocator(2)
+# 
+# HoustonMap <- ggmap(map,
+#   base_layer = ggplot (r.df, aes(x=x, y=y)))
+# 
+# HoustonMap+ggplot(r.df,aes(x=x, y=y)) + geom_tile(aes(fill = layer)) + coord_equal()
+# 
+# ant.occur = qmap (map,
+#   base_layer = g)
+# 
+# ant.occur= map + geom_tile(aes(fill = layer)) + coord_equal()
+# 
+# points.ant=geom_point (aes (x = long, y = lat), data = coord.antennatus)
+# 
+# p=map+ant.occur+points.ant
+#   annotation_raster(map,
+#     xmin=ext[1], xmax=ext[2], ymin=ext[3], ymax=ext[4])+
+#   xlab("")+
+#   ylab("")
+#====================================================================================
 #X11()
 #plot (endangered_reclas)
 #plot (wrld_simpl, add=TRUE, axes=FALSE) #not a best resolution
-#map("world", interior = TRUE, xlim=c(0,80), ylim=c(20,70), add=TRUE)#this is better resolution
-#map("world", boundary = FALSE, col="gray", add = TRUE) #this could make an interior 
-
-tiff (filename="outputs/antennatus_reclas.tiff", width=5000, height=5100, 
-  compression="lzw", res= 800)
+# plot (coord.full$long, coord.full$lat)
+# map("world", interior = TRUE, xlim=c(0,80), ylim=c(20,70), add=TRUE)#this is better resolution
+# map("world", boundary = FALSE, col="gray", add = TRUE) #this could make an interior #====================================================================================
+pdf (file="outputs/antennatus_reclas.pdf")
 plot (ant_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-points (coord.antennatus$long, coord.antennatus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20, col="red", cex=.6 )
-plot (wrld_simpl, add=T)
+plot (newmap, add=T)
+points (coord.antennatus$long, coord.antennatus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6 )
 dev.off()
 
-tiff (filename="outputs/germanicus_reclas.tiff", width=5000, height=5100, 
-  compression="lzw", res= 800)
+pdf (file="outputs/germanicus_reclas.pdf")
 plot (ger_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-points (coord.germanicus$long, coord.germanicus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20, col="red", cex=.6)
-plot (wrld_simpl, add=T)
+plot (newmap, add=T)
+points (coord.germanicus$long, coord.germanicus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6 )
 dev.off()
 
-tiff (filename="outputs/sepultor_reclas.tiff", width=5000, height=5100, 
-  compression="lzw", res= 800)
+pdf (file="outputs/sepultor_reclas.pdf")
 plot (sep_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-points (coord.sepultor$long, coord.sepultor$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20, col="red", cex=.6)
-plot (wrld_simpl, add=T)
+plot (newmap, add=T)
+points (coord.sepultor$long, coord.sepultor$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6 )
 dev.off()
 
-tiff (filename="outputs/vestigator_reclas.tiff", width=5000, height=5100, 
-  compression="lzw", res= 800)
+pdf (file="outputs/vestigator_reclas.pdf")
 plot (ves_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
-points (coord.vestigator$long, coord.vestigator$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20, col="red", cex=.6)
-plot (wrld_simpl, add=T)
+plot (newmap, add=T)
+points (coord.vestigator$long, coord.vestigator$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6 )
 dev.off()
+
+#====================================================================================
+
+# tiff (filename="outputs/antennatus_reclas1.tiff", width=5000, height=5100, 
+#   compression="lzw", res= 800)
+# plot (ant_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+# points (coord.antennatus$long, coord.antennatus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6 )
+# plot (newmap, add=T)
+# dev.off()
+# 
+# tiff (filename="outputs/germanicus_reclas.tiff", width=5000, height=5100, 
+#   compression="lzw", res= 800)
+# plot (ger_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+# points (coord.germanicus$long, coord.germanicus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", cex=.6)
+# plot (newmap, add=T)
+# dev.off()
+# 
+# tiff (filename="outputs/sepultor_reclas.tiff", width=5000, height=5100, 
+#   compression="lzw", res= 800)
+# plot (sep_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+# points (coord.sepultor$long, coord.sepultor$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20, col="red", cex=.6)
+# plot (newmap, add=T)
+# dev.off()
+# 
+# tiff (filename="outputs/vestigator_reclas.tiff", width=5000, height=5100, 
+#   compression="lzw", res= 800)
+# plot (ves_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+# points (coord.vestigator$long, coord.vestigator$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=20, col="red", cex=.6)
+# plot (newmap, add=T)
+# dev.off()
 
 
 #of europe be with gray boarders
 
-#experiments with maps - This is IT!!!
 
-newmap = getMap(resolution="low")
-plot (endangered_reclas)
-plot (newmap, xlim=c(5,45), ylim=c(42,56), add=T)
-
-##EXport to TIFF
-setwd ("C:/Users/jakubecp/Dropbox/SGEM_2015/Article_1")# skola
-tiff (filename="anennatus.tiff", width=5000, height=5000, 
-      compression="lzw", res= 800)
-plot (endangered_reclas, legend=F, xlim=c(-10,35), ylim=c(35,65))
-plot (newmap, xlim=c(5,45), ylim=c(42,56), add=T)
-dev.off()
-#EVALUATION OF THE MAXENT MODEL
-#crete object with random split of the data into k(5) subsamples by kfold
-fold <- kfold(coord,k=5)
-#Create training subdataset of 80% of the data for modeling by selecting 
-#everything except the number one ((100%/5)*4=80%)
-occtrain <- coord[fold !=1,]
-#Create testing subdataset of 20% of the data to validate the model by selecting
-#only the number one
-occtest <- coord [fold==1,]
-
-# MAXENT model (basic setup) for training data
-maxent_occtrain <- maxent (variable_crop, occtrain, args=c("maximumbackground=1000",
-                                                           "betamultiplier=5",
-                                                           "defaultprevalence=0.5"))
-#Prediction for training data
-maxent_occtrain_predict <- predict (maxent_occtrain, variable_crop )
-
-#PLotting training subdataset vs. whole dataset
-x11()
-plot (maxent_all_predict, main="Sciodrepoides watsoni distribution (Maxent/all)")
-plot (wrld_simpl, add=TRUE)
-x11()
-plot (maxent_occtrain_predict, main="Sciodrepoides watsoni distribution (Maxent/training)")
-plot (wrld_simpl, add=TRUE)
-
-#what is discriminant value (AUC)
-maxent_occtrain@results[5]
-#what is maximum training sensitivityplus specificity logistic treshold 
-#aka where to split
-maxent_occtrain@results
-#what is dimmension of my data to enter right number of random points
-dim(occtest)
-
-#testing on pseudoabsences (number 100 is estimated based on the dim value)
-pseudoabsence <- randomPoints (variable_crop, 650)
-x11()
-plot (coord.neg)
-plot (wrld_simpl,add=T)
-points (coord, col="red")
-
-#evaluation compare the value of AUC 
-#from this evaluate_nicveo with value of training set 
-#evaluate will compere with random pseudoabsence set and 
-#come with new AUC = compare it with maxent_training_nicveo@results[5]
-
-evaluate_maxent_occtrain <- evaluate (maxent_occtrain,
-                                      p=occtest, a=pseudoabsence,
-                                      x=variable_crop)
-
-#Evaluate AUC between these two models:
-evaluate_maxent_occtrain
-maxent_occtrain@results[5]
-
-#DONE
-#DONE
-#DONE
-#DONE
-#DONE
-#DONE
-#DONE
-#DONE
-#DONE
-#DONE
-#DONE
-
+# #EVALUATION OF THE MAXENT MODEL
+# #crete object with random split of the data into k(5) subsamples by kfold
+# fold <- kfold(coord,k=5)
+# #Create training subdataset of 80% of the data for modeling by selecting 
+# #everything except the number one ((100%/5)*4=80%)
+# occtrain <- coord[fold !=1,]
+# #Create testing subdataset of 20% of the data to validate the model by selecting
+# #only the number one
+# occtest <- coord [fold==1,]
+# 
+# # MAXENT model (basic setup) for training data
+# maxent_occtrain <- maxent (variable_crop, occtrain, args=c("maximumbackground=1000",
+#                                                            "betamultiplier=5",
+#                                                            "defaultprevalence=0.5"))
+# #Prediction for training data
+# maxent_occtrain_predict <- predict (maxent_occtrain, variable_crop )
+# 
+# #PLotting training subdataset vs. whole dataset
+# x11()
+# plot (maxent_all_predict, main="Sciodrepoides watsoni distribution (Maxent/all)")
+# plot (wrld_simpl, add=TRUE)
+# x11()
+# plot (maxent_occtrain_predict, main="Sciodrepoides watsoni distribution (Maxent/training)")
+# plot (wrld_simpl, add=TRUE)
+# 
+# #what is discriminant value (AUC)
+# maxent_occtrain@results[5]
+# #what is maximum training sensitivityplus specificity logistic treshold 
+# #aka where to split
+# maxent_occtrain@results
+# #what is dimmension of my data to enter right number of random points
+# dim(occtest)
+# 
+# #testing on pseudoabsences (number 100 is estimated based on the dim value)
+# pseudoabsence <- randomPoints (variable_crop, 650)
+# x11()
+# plot (coord.neg)
+# plot (wrld_simpl,add=T)
+# points (coord, col="red")
+# 
+# #evaluation compare the value of AUC 
+# #from this evaluate_nicveo with value of training set 
+# #evaluate will compere with random pseudoabsence set and 
+# #come with new AUC = compare it with maxent_training_nicveo@results[5]
+# 
+# evaluate_maxent_occtrain <- evaluate (maxent_occtrain,
+#                                       p=occtest, a=pseudoabsence,
+#                                       x=variable_crop)
+# 
+# #Evaluate AUC between these two models:
+# evaluate_maxent_occtrain
+# maxent_occtrain@results[5]
+# 
+# #DONE
+# #DONE
+# #DONE
+# #DONE
+# #DONE
+# #DONE
+# #DONE
+# #DONE
+# #DONE
+# #DONE
+# #DONE
+#===================================================================================
 #predicting in the past by function predict (every prediction should be run on the current 
 #data and then the prediction for the future or the past - use the same mathematical model for both)
-setwd ("C:/Users/pavel/Downloads/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/CCSM_21/")
-variable21<- stack (c("bio10.bil", "bio18.bil", "bio8.bil", "bio16.bil"))
-glac_crop <- crop (variable21, e)
-nic_glac <- predict (maxent_occtrain, glac_crop)
-X11()
-plot (nic_glac, main="Sciodrepoides watsoni in the last glacial (Maxent/training)")
-plot (wrld_simpl,add=T)
+
+in_dir ("D://Zaloha_notebook/Vzdelavani/Spatial_modeling/ENM_2015_Varela/climatic_layers/CCSM_21", variable_past<- stack (c("bio1.bil", 
+  "bio2.bil", 
+  "bio3.bil", 
+  "bio4.bil",
+  "bio5.bil",
+  "bio6.bil",
+  "bio7.bil",
+  "bio8.bil",
+  "bio9.bil",
+  "bio10.bil",
+  "bio11.bil",
+  "bio12.bil",
+  "bio13.bil",
+  "bio14.bil",
+  "bio15.bil",
+  "bio16.bil",
+  "bio17.bil",
+  "bio18.bil",
+  "bio19.bil"))) 
+
+variable_glac_crop<- crop (variable_past, ext)
+#===================================================================================
+#predict glac occurence
+maxent_ant_predict_glac<- predict (maxent_ant, variable_glac_crop)
+maxent_ger_predict_glac<- predict (maxent_ger, variable_glac_crop)
+maxent_sep_predict_glac<- predict (maxent_sep, variable_glac_crop)
+maxent_ves_predict_glac<- predict (maxent_ves, variable_glac_crop)
+#===================================================================================
+reclas <- c(maxent_ant@results[72], maxent_ger@results[72],maxent_sep@results[72],maxent_ves@results[72]) # maximum training specificity and sensitivity log. tresh
+
+
+am = c(reclas[1],1,1,0,reclas[1],0)
+arclmat = matrix (am,ncol=3,byrow=TRUE)
+ant_reclas_glac<- reclassify (maxent_ant_predict_glac, arclmat)
+
+gm = c(reclas[2],1,1,0,reclas[2],0)
+grclmat = matrix (gm,ncol=3,byrow=TRUE)
+ger_reclas_glac<- reclassify (maxent_ger_predict_glac, grclmat)
+
+
+sm = c(reclas[3],1,1,0,reclas[3],0)
+srclmat = matrix (am,ncol=3,byrow=TRUE)
+sep_reclas_glac<- reclassify (maxent_sep_predict_glac, srclmat)
+
+
+vm = c(reclas[4],1,1,0,reclas[4],0)
+vrclmat = matrix (vm,ncol=3,byrow=TRUE)
+ves_reclas_glac<- reclassify (maxent_ves_predict_glac, vrclmat)
+
+#====================================================================================
+pdf (file="outputs/antennatus_reclas_glac.pdf")
+plot (ant_reclas_glac, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (newmap, add=T)
+dev.off()
+
+pdf (file="outputs/germanicus_reclas_glac.pdf")
+plot (ger_reclas_glac, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (newmap, add=T)
+dev.off()
+
+pdf (file="outputs/sepultor_reclas_glac.pdf")
+plot (sep_reclas_glac, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (newmap, add=T)
+dev.off()
+
+pdf (file="outputs/vestigator_reclas_glac.pdf")
+plot (ves_reclas_glac, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]))
+plot (newmap, add=T)
+dev.off()
+
 
 #other maps of climate models (ECOclim - past layers )
 #future MIROC_21 ()
@@ -431,16 +540,3 @@ plot (nic_fut, main="Sciodrepoides watsoni MIROC_21 (Maxent/training)")
 plot (wrld_simpl,add=T)
 
 
-##ADITIONAL STUFF
-#extract = take values from raster
-niche <- extract (var_imp_crop, coord)
-niche <- as.data.frame (niche)
-plot (niche$bio18, niche$bio10, xlab= "prectip of warmest qrt" , ylab= "temp warmest qurt" )
-plot (niche$bio16, niche$bio8 , xlab= "precip of wettest qrt" , ylab= "temp of wettest qrt" )
-
-#reclassify to places where it is and where it is not (1 or 0)
-nicveo_reclas<- reclassify (map_nicveo_new, c(0,1,1))
-plot (nicveo_reclas)
-points (nicveo$data$decimalLongitude [nicveo$data$decimalLongitude>0],
-        nicveo$data$decimalLatitude[nicveo$data$decimalLongitude>0], 
-        pch=16, col="red", main = "wettest" )
