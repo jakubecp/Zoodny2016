@@ -1,0 +1,3 @@
+##Metodika
+
+Pøi modelovování pravdìpodobného rozšíøení ohrožených druhù hrobaøíkù byla použita data z mezinárodní databáze GBIF a soukromé databáze D. Sikese a obou autorù.
