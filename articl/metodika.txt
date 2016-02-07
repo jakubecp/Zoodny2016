@@ -1,3 +1,3 @@
 ##Metodika
 
-Pøi modelovování pravdìpodobného rozšíøení ohrožených druhù hrobaøíkù byla použita data z mezinárodní databáze GBIF a soukromé databáze D. Sikese a obou autorù.
+Pøi modelovování pravdìpodobného rozšíøení ohrožených druhù hrobaøíkù byla použita data z mezinárodní databáze GBIF a soukromé databáze D. Sikese a obou autorù. Tyto data byla oèištìna od záznamù bez GPS souøadnic a formát tìchto souøadnic byl následnì sjednocen pomocí funkce dms2deg (celestial package - Robotham, 2015). Modelování bylo provádìno nad kompletními klimatickými daty dostupnými zde: http://www.worldclim.org/bioclim. Nebyla provádìna selekce nejvhodnìjších promìných, protože nás zajímala pøedevším predikce vhodných lokalit nikoliv faktorù, které mají nejvìtší vliv. K modelování samotnému jsme použili algoritmus MaxEnt (dismo package - Hijmans et al., 2016) v prostøedí R (R Core Team, 2016), kde byly provádìny veškeré operace s daty a jejich následná interpretace.
