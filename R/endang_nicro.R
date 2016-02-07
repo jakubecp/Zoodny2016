@@ -196,10 +196,10 @@ maxent_ger <- maxent (variable_clim_crop, coord.germanicus, args=c("maximumbackg
   "betamultiplier=1",
   "defaultprevalence=0.5"))
 maxent_sep <- maxent (variable_clim_crop, coord.sepultor, args=c("maximumbackground=1000",
-  "betamultiplier=1",
+  "betamultiplier=2",
   "defaultprevalence=0.5"))
 maxent_ves <- maxent (variable_clim_crop, coord.vestigator, args=c("maximumbackground=1000",
-  "betamultiplier=1",
+  "betamultiplier=2",
   "defaultprevalence=0.5"))
 
 # #maxent_all2 <- maxent (variable_crop, coord, args=c("maximumbackground=1000",
@@ -210,26 +210,22 @@ maxent_ves <- maxent (variable_clim_crop, coord.vestigator, args=c("maximumbackg
 #                                                     "defaultprevalence=0.5"))
 #check the behavior of your data to variables (graph) and play
 #with "betamultiplier" for smoother model of climatic variables (values= 1 - inf)
-# X11()
+X11()
 # par (mfrow=c(2,2))
-# response (maxent_ant)
-# response (maxent_ger)
-# response (maxent_sep)
-# response (maxent_ves)
+response (maxent_ant)
+response (maxent_ger)
+response (maxent_sep)
+response (maxent_ves)
 
 # response (maxent_all2)
 # response (maxent_all5)
 
-#all values
-# maxent_all@results
 
 #just AUC
 maxent_ant@results[5]
 maxent_ger@results[5]
 maxent_sep@results[5]
 maxent_ves@results[5]
-# maxent_all2@results[5]
-# maxent_all5@results[5]
 
 #Predict probability of occurence
 maxent_ant_predict<- predict (maxent_ant, variable_clim_crop)
