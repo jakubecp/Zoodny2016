@@ -327,27 +327,28 @@ ves_reclas<- reclassify (maxent_ves_predict, vrclmat)
 #plot (wrld_simpl, add=TRUE, axes=FALSE) #not a best resolution
 # plot (coord.full$long, coord.full$lat)
 # map("world", interior = TRUE, xlim=c(0,80), ylim=c(20,70), add=TRUE)#this is better resolution
-# map("world", boundary = FALSE, col="gray", add = TRUE) #this could make an interior #====================================================================================
+# map("world", boundary = FALSE, col="gray", add = TRUE) #this could make an interior 
+#====================================================================================
 pdf (file="outputs/antennatus_reclas.pdf")
-plot (ant_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "purple"))
+plot (ant_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "darkblue"))
 plot (newmap, add=T)
 points (coord.antennatus$long, coord.antennatus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6 )
 dev.off()
 
 pdf (file="outputs/germanicus_reclas.pdf")
-plot (ger_reclas, legend=T, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "purple"))
+plot (ger_reclas, legend=T, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "darkblue"))
 plot (newmap, add=T)
 points (coord.germanicus$long, coord.germanicus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6 )
 dev.off()
 
 pdf (file="outputs/sepultor_reclas.pdf")
-plot (sep_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "purple"))
+plot (sep_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "darkblue"))
 plot (newmap, add=T)
 points (coord.sepultor$long, coord.sepultor$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6 )
 dev.off()
 
 pdf (file="outputs/vestigator_reclas.pdf")
-plot (ves_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "purple"))
+plot (ves_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "darkblue"))
 plot (newmap, add=T)
 points (coord.vestigator$long, coord.vestigator$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6 )
 dev.off()
@@ -356,28 +357,28 @@ dev.off()
 
 tiff (filename="outputs/antennatus_reclas.tiff", width=8000, height=8000, 
   compression="lzw", res= 800)
-plot (ant_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "purple"))
+plot (ant_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "darkblue"))
 plot (newmap, add=T)
 points (coord.antennatus$long, coord.antennatus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6 )
 dev.off()
 
 tiff (filename="outputs/germanicus_reclas.tiff", width=8000, height=8000, 
   compression="lzw", res= 800)
-plot (ger_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "purple"))
+plot (ger_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "darkblue"))
 plot (newmap, add=T)
 points (coord.germanicus$long, coord.germanicus$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6)
 dev.off()
 
 tiff (filename="outputs/sepultor_reclas.tiff", width=8000, height=8000, 
   compression="lzw", res= 800)
-plot (sep_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "purple"))
+plot (sep_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "darkblue"))
 plot (newmap, add=T)
 points (coord.sepultor$long, coord.sepultor$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6)
 dev.off()
 
 tiff (filename="outputs/vestigator_reclas.tiff", width=8000, height=8000, 
   compression="lzw", res= 800)
-plot (ves_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "purple"))
+plot (ves_reclas, legend=F, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), col=c("gray95", "darkblue"))
 plot (newmap, add=T)
 points (coord.vestigator$long, coord.vestigator$lat, xlim =c(ext[1],ext[2]),ylim=c(ext[3],ext[4]), pch=21, col="black", bg="red", cex=.6)
 dev.off()
